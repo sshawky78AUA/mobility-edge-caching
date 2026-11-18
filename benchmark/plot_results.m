@@ -1,7 +1,8 @@
 function plot_results()
 % PLOT_RESULTS  MATLAB version of the Section VI figures (same panels as
 % plot_results.py, which rendered the figures in the paper). Run after
-% collect_results.m and d2d_predict.m. Writes PDFs to ../paper/figures/.
+% collect_results.m and d2d_predict.m. Writes fig_sbs_hit.pdf, fig_d2d.pdf and
+% fig_predict.pdf to ../paper/figures/.
 % Curves are means over seeds; shaded bands are 95% confidence intervals.
 P = bench_config();
 [R, hdr] = read_raw('results/raw.csv');
@@ -25,16 +26,16 @@ reach = mean_of(cells(c('mean_reach'))); pstay = mean_of(cells(c('p_stay_first')
 lru = mean_of(cells(c('eff_lru'))); snap_lru = mean(c('snap_lru'));
 
 % ---------------- Fig. 2: SBS caching
-f = figure('Units', 'inches', 'Position', [1 1 7.16 4.3]);
-ax = subplot(2, 2, 1); hold(ax, 'on');
+f = figure('Units', 'inches', 'Position', [1 1 7.16 2.55]);
+ax = subplot(1, 3, 1); hold(ax, 'on');
 for mi = 1:nm
   band(ax, v, mean_of(G(mi,:)), ci_of(G(mi,:)), col(mi,:), mi == 1);
 end
 hline(ax, 0, [0.4 25]); ylim([-2 28]); style_speed(ax);
 ylabel('Gain over most popular (%)');
-title('(a) Mobility-aware placement: gain grows with speed', 'FontWeight', 'normal');
+title('(a) Gain over MPC against speed', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 2); hold(ax, 'on');
+ax = subplot(1, 3, 2); hold(ax, 'on');
 patch([-26 0 0 -26], [-2 -2 28 28], [0.98 0.93 0.91], 'EdgeColor', 'none');
 for mi = 2:nm
   plot(mean_of(Gs(mi,:)), mean_of(G(mi,:)), mk{mi}, 'Color', col(mi,:), ...
@@ -45,9 +46,9 @@ text(-25.5, 4, {'snapshot predicts a loss,', 'delivery shows a gain'}, 'FontSize
      'Color', [0.69 0.29 0.12]);
 xlim([-26 3]); ylim([-2 28]); grid(ax, 'on'); box(ax, 'off');
 xlabel('Gain under the snapshot hit ratio (%)'); ylabel('Gain under the effective hit ratio (%)');
-title('(b) The snapshot metric reverses the sign', 'FontWeight', 'normal');
+title('(b) Snapshot vs effective gain', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 3); hold(ax, 'on');
+ax = subplot(1, 3, 3); hold(ax, 'on');
 for mi = 1:nm
   plot(pstay(mi,:), lru(mi,:), mk{mi}, 'Color', col(mi,:), 'MarkerFaceColor', col(mi,:), 'MarkerSize', 4);
 end
@@ -55,27 +56,14 @@ plot([0 1], snap_lru * [0 1], 'k-');
 text(0.55, 0.075, 'line: LRU snapshot hit ratio \times P(stay \geq D_s)', 'FontSize', 7);
 xlim([0.2 1.02]); ylim([0.04 0.26]); grid(ax, 'on'); box(ax, 'off');
 xlabel('P(user stays \geq D_s in the first cell)'); ylabel('LRU effective hit ratio');
-title('(c) LRU loses exactly the interrupted deliveries', 'FontWeight', 'normal');
+title('(c) LRU against handover risk', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 4); hold(ax, 'on');
-gm = mean_of(G);
-for mi = 1:nm
-  plot(reach(mi,:), gm(mi,:), mk{mi}, 'Color', col(mi,:), 'MarkerFaceColor', col(mi,:), 'MarkerSize', 4);
-end
-fit = setdiff(2:nm, find(strcmp(models, 'rwp')));          % moving models except RWP
-x = reach(fit,:) - 1; y = gm(fit,:);
-kfit = sum(x(:) .* y(:)) / sum(x(:).^2); rc = corrcoef(x(:), y(:));
-xs = linspace(1, 3.4, 50); plot(xs, kfit * (xs - 1), 'k:');
-text(1.03, 25, sprintf('%.1f%% per additional SBS (r = %.2f)', kfit, rc(1,2)), 'FontSize', 7);
-xlim([0.95 3.4]); ylim([-2 28]); grid(ax, 'on'); box(ax, 'off');
-xlabel('Reach: SBSs usable within the deadline (mean)'); ylabel('Gain over most popular (%)');
-title('(d) Reach explains the gain', 'FontWeight', 'normal');
 legend_models(f, col, mk, names, 1:nm);
 save_pdf(f, fullfile(outdir, 'fig_sbs_hit.pdf'));
 
 % ---------------- Fig. 3: D2D offloading
-f = figure('Units', 'inches', 'Position', [1 1 7.16 4.3]);
-ax = subplot(2, 2, 1); hold(ax, 'on');
+f = figure('Units', 'inches', 'Position', [1 1 7.16 2.55]);
+ax = subplot(1, 3, 1); hold(ax, 'on');
 rw = find(strcmp(models, 'randwalk'));
 for k = 1:numel(P.Dd_list)
   key = sprintf('d2d_Dd%d', P.Dd_list(k)); s0 = mean(R.(key)(R.mi == 1));
@@ -85,9 +73,9 @@ end
 hline(ax, 0, [0.4 25]); ylim([-60 220]); style_speed(ax); ylabel('Offloading vs static (%)');
 legend(arrayfun(@(d) sprintf('D_d = %d s', d), P.Dd_list, 'UniformOutput', false), ...
        'Location', 'northwest', 'Box', 'off');
-title('(a) Random walk: the sign depends on D_d', 'FontWeight', 'normal');
+title('(a) Offloading vs static, random walk', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 2); hold(ax, 'on');
+ax = subplot(1, 3, 2); hold(ax, 'on');
 L = 1:size(H.h, 2); vs = [1 5 20];
 for k = 1:3
   cnt = sum(H.h(H.mi == rw & H.speed == vs(k), :), 1);
@@ -100,9 +88,9 @@ end
 set(ax, 'XScale', 'log', 'YScale', 'log'); xlim([1 600]); ylim([3e-3 1]); grid(ax, 'on'); box(ax, 'off');
 legend(arrayfun(@(s) sprintf('v = %g m/s', s), vs, 'UniformOutput', false), 'Location', 'southwest', 'Box', 'off');
 xlabel('Contact duration l (s)'); ylabel('Share of contacts lasting \geq l');
-title('(b) Random walk: speed shortens contacts', 'FontWeight', 'normal');
+title('(b) Contact durations, random walk', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 3); hold(ax, 'on');
+ax = subplot(1, 3, 3); hold(ax, 'on');
 B = best_speeds(R, P);                 % [mi, Dd, vstar, interior]
 for mi = 2:6
   b = B(B(:,1) == mi, :);
@@ -116,9 +104,28 @@ text(2.1, 0.62, sprintf('dotted: v^\\star D_d = %.0f m', kap), 'FontSize', 7);
 set(ax, 'XScale', 'log', 'YScale', 'log', 'XTick', P.Dd_list, 'YTick', [0.5 1 2 5 10 20]);
 xlim([1.7 36]); ylim([0.4 26]); grid(ax, 'on'); box(ax, 'off');
 xlabel('Transfer time D_d (s)'); ylabel('Best speed v^\star (m/s)');
-title('(c) Longer transfers favor slower users', 'FontWeight', 'normal');
+title('(c) Best speed per transfer time', 'FontWeight', 'normal');
 
-ax = subplot(2, 2, 4); hold(ax, 'on');
+legend_models(f, col, mk, names, 2:6);
+save_pdf(f, fullfile(outdir, 'fig_d2d.pdf'));
+
+% ---------------- Fig. 4: what predicts the outcome
+f = figure('Units', 'inches', 'Position', [1 1 7.16 2.45]);
+ax = subplot(1, 2, 1); hold(ax, 'on');
+gm = mean_of(G);
+for mi = 1:nm
+  plot(reach(mi,:), gm(mi,:), mk{mi}, 'Color', col(mi,:), 'MarkerFaceColor', col(mi,:), 'MarkerSize', 4);
+end
+fit = setdiff(2:nm, find(strcmp(models, 'rwp')));          % moving models except RWP
+x = reach(fit,:) - 1; y = gm(fit,:);
+kfit = sum(x(:) .* y(:)) / sum(x(:).^2); rc = corrcoef(x(:), y(:));
+xs = linspace(1, 3.4, 50); plot(xs, kfit * (xs - 1), 'k:');
+text(1.03, 25, sprintf('%.1f%% per additional SBS (r = %.2f)', kfit, rc(1,2)), 'FontSize', 7);
+xlim([0.95 3.4]); ylim([-2 28]); grid(ax, 'on'); box(ax, 'off');
+xlabel('Reach: SBSs usable within the deadline (mean)'); ylabel('Gain over most popular (%)');
+title('(a) SBS caching: reach predicts the gain', 'FontWeight', 'normal');
+legend(names, 'Location', 'northwest', 'Box', 'off');
+ax = subplot(1, 2, 2); hold(ax, 'on');
 T = d2d_predict(); X = T.rows;                     % model, speed, seed, Dd, g, pred, sim
 [keys, ~, id] = unique(X(:, [1 2 4]), 'rows');
 pm = accumarray(id, X(:,6), [], @mean); sm = accumarray(id, X(:,7), [], @mean);
@@ -132,9 +139,8 @@ text(0.075, 0.46, {sprintf('%d configurations', numel(e)), ...
      sprintf('mean |error| %.3f, max %.3f', mean(e), max(e))}, 'FontSize', 7);
 xlim([0.07 0.52]); ylim([0.07 0.52]); grid(ax, 'on'); box(ax, 'off');
 xlabel('Predicted offloading ratio, Eq. (5)'); ylabel('Simulated offloading ratio');
-title('(d) Contact statistics predict every run', 'FontWeight', 'normal');
-legend_models(f, col, mk, names, 2:6);
-save_pdf(f, fullfile(outdir, 'fig_d2d.pdf'));
+title('(b) D2D caching: contact statistics predict offloading', 'FontWeight', 'normal');
+save_pdf(f, fullfile(outdir, 'fig_predict.pdf'));
 end
 
 % ------------------------------------------------------------------ helpers
