@@ -20,7 +20,7 @@ Code, data and LaTeX source for
 In MATLAB or Octave, from `benchmark/`:
 
 ```matlab
-run_sweep(1,1)      % 7 models x 6 speeds x 10 seeds (about 70 min on two cores in Octave)
+run_sweep(1,1)      % 7 models x 11 speeds x 10 seeds (about 2.5 h on two cores in Octave)
 run_mismatch(10)    % train/test mismatch at 10 m/s (and run_mismatch(1) at walking speed)
 run_mixed()         % mixed population of static users and random walkers
 collect_results()   % summary.csv, raw.csv, contact_hist.csv

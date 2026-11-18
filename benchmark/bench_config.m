@@ -27,7 +27,7 @@ P.Dd_list  = [2 5 10 20 30];     % seconds of uninterrupted D2D contact to deliv
 P.rD2D     = 50;            % D2D range
 
 % Sweeps
-P.speeds   = [0.5 1 2 5 10 20];   % travel speed while moving (m/s)
+P.speeds   = [0.5 1 1.5 2 3 4 5 7 10 14 20];   % travel speed while moving (m/s)
 P.seeds    = 1:10;
 P.mix_static = 0.7;     % share of static users in the mixed population (run_mixed.m)
 P.models   = {'static','randwalk','rwp','gaussmarkov','markovcell','manhattan','levy'};
