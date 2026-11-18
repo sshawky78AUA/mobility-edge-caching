@@ -7,7 +7,7 @@ GNU Octave (tested with Octave 8 on Ubuntu).
 ## Run
 
 ```matlab
-run_sweep(1,1)        % 7 models x 11 speeds x 10 seeds -> results/main_*.mat
+run_sweep(1,1)        % 7 models x 6 speeds x 10 seeds -> results/main_*.mat
 run_mismatch(10)      % train on one model, test on another (Table VII uses v = 10 m/s;
                       % run_mismatch(1) gives the walking-speed check)
 run_mixed()           % 70% static users + 30% random walkers (Table VIII)
