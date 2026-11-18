@@ -29,6 +29,7 @@ P.rD2D     = 50;            % D2D range
 % Sweeps
 P.speeds   = [0.5 1 2 5 10 20];   % travel speed while moving (m/s)
 P.seeds    = 1:10;
+P.mix_static = 0.7;     % share of static users in the mixed population (run_mixed.m)
 P.models   = {'static','randwalk','rwp','gaussmarkov','markovcell','manhattan','levy'};
 P.names    = {'Static','Random walk','RWP','Gauss-Markov','Markov cell','Manhattan','Levy walk'};
 

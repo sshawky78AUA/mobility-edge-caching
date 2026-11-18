@@ -8,7 +8,9 @@ GNU Octave (tested with Octave 8 on Ubuntu).
 
 ```matlab
 run_sweep(1,1)        % 7 models x 6 speeds x 10 seeds -> results/main_*.mat
-run_mismatch(5)       % train on one model, test on another (v = 5 m/s)
+run_mismatch(10)      % train on one model, test on another (Table VII uses v = 10 m/s;
+                      % run_mismatch(1) gives the walking-speed check)
+run_mixed()           % 70% static users + 30% random walkers (Table VIII)
 collect_results()     % summary.mat, summary.csv, raw.csv (per seed), contact_hist.csv
 d2d_predict()         % contact-based prediction of D2D offloading, Eqs. (4)-(5)
 run_rwp_warmup(5)     % classical vs stationary random waypoint (quoted in Sec. VI-A)
@@ -37,6 +39,7 @@ and draws the same panels as `plot_results.m`.
 | `eval_requests.m` | Snapshot and effective hit ratios, LRU, D2D offloading |
 | `mobility_stats.m` | Speed, sojourn, handovers, reach, stay probability, contact statistics |
 | `run_one.m` | One (model, speed, seed) point |
+| `run_mixed.m` | Mixed population: share `P.mix_static` of users static |
 | `d2d_predict.m`, `analysis.py` | Usable-contact probability g(Dd) and predicted offloading |
 
 ## Changes from the first draft

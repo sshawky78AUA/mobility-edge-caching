@@ -5,6 +5,16 @@ function [X, Y] = gen_mobility(model, v, P, seed)
 %   that warm-up is discarded, so all models start close to their stationary
 %   regime (Yoon et al., INFOCOM 2003). v is the travel speed while moving.
 
+if strncmp(model, 'mix_', 4)
+  % Mixed population: a fraction P.mix_static of the users never move; the
+  % others follow the base model named after the prefix (e.g. mix_randwalk).
+  [X, Y] = gen_mobility(model(5:end), v, P, seed);
+  set_seed(seed + 777);
+  idx = randperm(P.U, round(P.mix_static * P.U));
+  X(idx, :) = repmat(X(idx, 1), 1, size(X, 2));
+  Y(idx, :) = repmat(Y(idx, 1), 1, size(Y, 2));
+  return;
+end
 set_seed(seed);
 T  = P.Tsim + P.Td + 1;
 t0 = -P.Twarm;

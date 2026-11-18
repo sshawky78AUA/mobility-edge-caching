@@ -42,7 +42,7 @@ Seeds & 10 per configuration & & \\
 \end{tabular}
 \end{table*}
 
-\emph{Mobility models.} We implement seven models from the static, synthetic and structured families of Section~\ref{sec:models}: static users, random walk, RWP, Gauss-Markov, a Markov chain over cells, a Manhattan grid and a truncated L\'evy walk. The parameter $v$ is the speed while moving. Users that reach a wall are reflected, and movement is interpolated at 1~s resolution so that a reflected path does not cut corners. The L\'evy parameters are illustrative and are not fitted to the traces of~\cite{rhee2011levy}. Trace-driven runs are not included; the code accepts a trace in place of a generator.
+\emph{Mobility models.} We implement seven models from the static, synthetic and structured families of Section~\ref{sec:models}: static users, random walk, RWP, Gauss-Markov, a Markov chain over cells, a Manhattan grid and a truncated L\'evy walk. The parameter $v$ is the speed while moving; its range, 0.5 to 20~m/s, spans slow walking to urban driving. Users that reach a wall are reflected, and movement is interpolated at 1~s resolution so that a reflected path does not cut corners. The L\'evy parameters are illustrative and are not fitted to the traces of~\cite{rhee2011levy}. Trace-driven runs are not included; the code accepts a trace in place of a generator.
 
 \emph{Caching policies.} Three SBS policies are compared.
 \begin{itemize}
@@ -57,14 +57,14 @@ treating visits as independent, until every cache is full. $\mathbf{W}$ and $\pi
 \end{itemize}
 D2D caches keep the fixed popularity-proportional placement, so that changes in D2D offloading come from mobility alone. We report the snapshot and effective hit ratios of Section~\ref{subsec:metrics} and the D2D offloading ratio.
 
-\emph{Statistics.} Each configuration runs for one measured hour with 10 independent seeds. Figures show the mean with 95\% confidence intervals; the half-width is at most 0.006 for every hit and offloading ratio. Every run discards a 2000~s warm-up. Without it and with speeds in $(0,2v]$~\cite{yoon2003rwp}, our RWP at $v=5$~m/s slowed from 2.4 to 1.3~m/s over four hours and its D2D offloading drifted by up to 0.04 (three seeds); with a positive minimum speed and the warm-up it stays at 3.6~m/s.
+\emph{Statistics.} Each configuration runs for one measured hour with 10 independent seeds; the model-mismatch and mixed-population experiments use 5. Figures show the mean with 95\% confidence intervals; the half-width is at most 0.006 for every hit and offloading ratio. Every run discards a 2000~s warm-up. Without it and with speeds in $(0,2v]$~\cite{yoon2003rwp}, our RWP at $v=5$~m/s slowed from 2.4 to 1.3~m/s over four hours and its D2D offloading drifted by up to 0.04 (three seeds); with a positive minimum speed and the warm-up it stays at 3.6~m/s.
 
 \subsection{Measured Mobility}
 \label{subsec:res-measured}
 
 \begin{table}[t]
 \centering
-\caption{Measured mobility statistics at $v=5$~m/s}
+\caption{Measured mobility statistics at a walking and an urban driving speed (mean of 10 seeds)}
 \label{tab:stats}
 \footnotesize
 \renewcommand{\arraystretch}{1.1}
@@ -74,17 +74,27 @@ D2D caches keep the fixed popularity-proportional placement, so that changes in 
 Model & Speed & Sojourn & Handover & Contact & Inter- & Reach \\
  & (m/s) & (s) & (per h) & (s) & contact (s) & \\
 \hline
-Random walk & 4.99 & 39.2 & 91.0 & 12.6 & 517 & 1.77 \\
-RWP & 3.60 & 45.2 & 79.1 & 14.5 & 826 & 1.81 \\
-Gauss-Markov & 5.00 & 36.2 & 98.6 & 11.9 & 435 & 1.73 \\
-Markov cell & 4.97 & 52.4 & 68.4 & 12.7 & 589 & 1.74 \\
-Manhattan & 5.00 & 49.8 & 71.8 & 19.9 & 785 & 1.79 \\
-L\'evy walk & 0.81 & 193.6 & 15.0 & 50.8 & 245 & 1.15 \\
+\multicolumn{7}{l}{\emph{$v=1$~m/s (walking)}} \\
+Random walk & 1.00 & 160.3 & 18.0 & 62.3 & 256 & 1.16 \\
+RWP & 0.86 & 185.5 & 18.9 & 66.1 & 1192 & 1.22 \\
+Gauss-Markov & 1.00 & 147.6 & 19.9 & 59.2 & 211 & 1.16 \\
+Markov cell & 1.00 & 258.9 & 13.7 & 62.8 & 703 & 1.16 \\
+Manhattan & 1.00 & 243.9 & 14.2 & 93.8 & 921 & 1.16 \\
+L\'evy walk & 0.49 & 291.3 & 8.9 & 96.6 & 302 & 1.10 \\
+\multicolumn{7}{l}{\emph{$v=10$~m/s (urban driving)}} \\
+Random walk & 9.96 & 19.8 & 181.2 & 6.3 & 540 & 2.40 \\
+RWP & 5.97 & 27.5 & 130.3 & 8.1 & 635 & 2.14 \\
+Gauss-Markov & 9.98 & 18.9 & 189.6 & 6.1 & 483 & 2.29 \\
+Markov cell & 9.86 & 26.3 & 136.4 & 6.4 & 464 & 2.30 \\
+Manhattan & 10.00 & 25.0 & 143.7 & 9.5 & 644 & 2.54 \\
+L\'evy walk & 0.89 & 180.1 & 16.1 & 45.5 & 224 & 1.16 \\
 \hline
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:stats} reports, at $v=5$~m/s, the measured mean speed including pauses, the mean sojourn time in a cell, the handover rate, the mean contact and inter-contact durations of a user pair, and the \emph{reach}: the mean number of distinct SBSs with which a user, at a random instant, stays for at least $D_s$ within the next $T_d$. At the same nominal speed the models differ widely. The mean inter-contact time ranges from 435~s (Gauss-Markov) to 826~s (RWP), and the L\'evy walk, whose heavy-tailed pauses dominate, moves at 0.81~m/s on average. The spatial distribution also differs. RWP users concentrate near the center~\cite{bettstetter2004rwp}: at 2~m/s, 18.6\% of user-time falls in the central 300~m $\times$ 300~m square, which is 9\% of the area. With the steering rule of Table~\ref{tab:params}, Gauss-Markov users avoid the border at low speed and occupy it uniformly at 20~m/s.
+Table~\ref{tab:stats} reports the measured statistics at two nominal speeds: 1~m/s, close to walking, and 10~m/s, a typical urban driving speed. The columns are the mean speed including pauses, the mean sojourn time in a cell, the handover rate, the mean contact and inter-contact durations of a user pair, and the \emph{reach}: the mean number of distinct SBSs with which a user, at a random instant, stays for at least $D_s$ within the next $T_d$. At walking speed every model keeps a user in its cell for two to five minutes, longer than the 60~s deadline, so the reach is about 1.2 and a user rarely gets a second cache before the deadline. At 10~m/s the sojourn drops to 19 to 27~s and the reach rises to between 2.1 and 2.5 for all models except the L\'evy walk, whose heavy-tailed pauses keep its mean speed below 1~m/s at every nominal speed. At the same nominal speed the models still differ: at 1~m/s the mean inter-contact time ranges from 211~s (Gauss-Markov) to 1192~s (RWP), and RWP users move more slowly on average than the nominal speed because of their pauses and their speed draw. The spatial distribution also differs. RWP users concentrate near the center~\cite{bettstetter2004rwp}: at 2~m/s, 18.6\% of user-time falls in the central 300~m $\times$ 300~m square, which is 9\% of the area. With the steering rule of Table~\ref{tab:params}, Gauss-Markov users avoid the border at low speed and occupy it uniformly at 20~m/s.
+
+None of these models is fitted to measured traces, and in all of them except the static model and the L\'evy walk every user keeps moving. Measured human mobility is different: most people spend most of their time at a few locations~\cite{gonzalez2008understanding}. The benchmark therefore shows how the models differ under common conditions; it does not predict the gain of a real network. Section~\ref{subsec:mixed} takes one step toward realism with a population in which most users are static.
 
 \subsection{Small-Cell Caching}
 \label{subsec:res-sbs}
@@ -100,7 +110,7 @@ Table~\ref{tab:stats} reports, at $v=5$~m/s, the measured mean speed including p
 
 \emph{Diversity turns mobility into gain.} At 0.5~m/s the mobility-aware placement performs like MPC under every model (0.420 to 0.422). At 20~m/s its effective hit ratio is 0.522 under the Manhattan model, 0.505 under the Markov cell model, 0.501 under the random walk and 0.481 under Gauss-Markov, gains of 24.3\%, 20.4\%, 19.4\% and 15.1\% over MPC (Fig.~\ref{fig:sbs}a). Under RWP the gain peaks at 8.9\% at 10~m/s and falls to 6.4\% at 20~m/s; under the L\'evy walk it never exceeds 0.7\%.
 
-\emph{Reach explains most of the spread.} Fig.~\ref{fig:sbs}d plots the gain of every model and speed against the reach. The correlation is 0.98, and for all moving models except RWP the gain grows by about 10.4\% for each additional SBS within reach. Nominal speed does not order the points; the L\'evy walk at 20~m/s has the reach (1.16) and the gain (0.7\%) of the other models at 1~m/s. RWP falls below the line. At 5~m/s it has the highest reach of all models (1.81) but a lower gain (6.2\%) than every model except the L\'evy walk. Its users concentrate in the center, so the cells they reach are mostly the same central cells: 56\% of the off-diagonal reach of $\mathbf{W}$ points to the central nine cells, against 38\% to 46\% for the other moving models (mean of 10 seeds). A central cache serves users from several neighbors and cannot complement each of them, so the reach of RWP buys less diversity. The gain therefore depends on how many caches a user reaches and on how evenly those caches are shared.
+\emph{Reach explains most of the spread.} Fig.~\ref{fig:sbs}d plots the gain of every model and speed against the reach. The correlation is 0.98, and for all moving models except RWP the gain grows by about 10.4\% for each additional SBS within reach. Nominal speed does not order the points; the L\'evy walk at 20~m/s has the reach (1.16) and the gain (0.7\%) of the other models at 1~m/s. RWP falls below the line. At 5~m/s it has the highest reach of all models (1.81) but a lower gain (6.2\%) than every model except the L\'evy walk (Fig.~\ref{fig:sbs}d). Its users concentrate in the center, so the cells they reach are mostly the same central cells: 56\% of the off-diagonal reach of $\mathbf{W}$ points to the central nine cells, against 38\% to 46\% for the other moving models (mean of 10 seeds). A central cache serves users from several neighbors and cannot complement each of them, so the reach of RWP buys less diversity. The gain therefore depends on how many caches a user reaches and on how evenly those caches are shared.
 
 \emph{The snapshot metric reverses the conclusion.} The snapshot hit ratio of the same placement falls below MPC as speed grows, to 0.326 under the Manhattan model at 20~m/s, 22.3\% below MPC (Fig.~\ref{fig:sbs}b). A paper that reported only the snapshot ratio would conclude that the mobility-aware placement is worse than MPC, while the effective ratio shows it is 24.3\% better. The snapshot ratio counts only the cache at the request instant, so it penalizes a placement that relies on the next cells for the files it does not hold.
 
@@ -141,7 +151,7 @@ Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ i
 
 \begin{table}[t]
 \centering
-\caption{Effective hit ratio when the mobility-aware placement is trained on one model (rows) and used under another (columns), $v=5$~m/s, mean of 10 seeds. MPC gives 0.420 in every column.}
+\caption{Effective hit ratio when the mobility-aware placement is trained on one model (rows) and used under another (columns), $v=10$~m/s, mean of 5 seeds. MPC gives 0.420 in every column.}
 \label{tab:mismatch}
 \footnotesize
 \renewcommand{\arraystretch}{1.1}
@@ -151,18 +161,47 @@ Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ i
 Train $\backslash$ Test & Stat. & RW & RWP & GM & MC & MH & L\'evy \\
 \hline
 Static & \textbf{.420} & .420 & .420 & .420 & .420 & .420 & .420 \\
-Random walk & .394 & \textbf{.454} & .451 & .449 & .453 & .457 & .404 \\
-RWP & .398 & .446 & \textbf{.445} & .444 & .449 & .451 & .409 \\
-Gauss-Markov & .399 & .450 & .450 & \textbf{.448} & .454 & .454 & .409 \\
-Markov cell & .391 & .451 & .449 & .449 & \textbf{.457} & .457 & .404 \\
-Manhattan & .385 & .451 & .449 & .449 & .452 & \textbf{.458} & .397 \\
-L\'evy walk & .418 & .434 & .434 & .434 & .436 & .436 & \textbf{.421} \\
+Random walk & .371 & \textbf{.483} & .462 & .475 & .478 & .489 & .386 \\
+RWP & .383 & .476 & \textbf{.458} & .471 & .473 & .488 & .396 \\
+Gauss-Markov & .373 & .483 & .462 & \textbf{.477} & .480 & .491 & .387 \\
+Markov cell & .367 & .483 & .462 & .476 & \textbf{.483} & .491 & .380 \\
+Manhattan & .345 & .486 & .452 & .478 & .482 & \textbf{.498} & .361 \\
+L\'evy walk & .419 & .442 & .438 & .441 & .442 & .443 & \textbf{.423} \\
 \hline
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:mismatch} trains the mobility-aware placement on one model and uses it under another, at 5~m/s. Training on static users reproduces MPC, as it should, since $\mathbf{W}$ is then the identity. The 95\% confidence half-width of every entry is below 0.006.
+Table~\ref{tab:mismatch} trains the mobility-aware placement on one model and uses it under another, at the urban driving speed of 10~m/s. Training on static users reproduces MPC, as it should, since $\mathbf{W}$ is then the identity. The 95\% confidence half-width of every entry is below 0.013. At walking speed the test is uninformative: with a reach of about 1.2, every placement, matched or not, stays within 0.005 of MPC.
 
-Among the five models in which users keep moving, mismatch costs little: in every column, the worst cross-model entry is within 0.009 of the matched one. In the RWP column every cross-trained placement does better than the one trained on RWP (0.449 to 0.451 against 0.445). This is the effect seen in Fig.~\ref{fig:sbs}d from the other side: RWP reach is concentrated on shared central cells, which~\eqref{eq:maobj} treats as independent visits, so a placement learned from more uniform movement spreads content better.
+Among the five models in which users keep moving, mismatch costs little at 10~m/s: in every column, the worst cross-model entry is within 0.011 of the matched one. In the RWP column three of the four cross-trained placements do better than the one trained on RWP (0.458), which is the effect seen in Fig.~\ref{fig:sbs}d from the other side: RWP reach is concentrated on shared central cells, which~\eqref{eq:maobj} treats as independent visits, so a placement learned from more uniform movement spreads content better.
 
-Mismatch is costly when the training model moves and the actual users mostly do not. A placement trained on any of the five moving models and used with static users gives 0.385 to 0.399, 5.0\% to 8.2\% below MPC; used with L\'evy walkers it gives 0.397 to 0.409, again below MPC. Training on the L\'evy walk is conservative: it is never more than 0.002 below MPC, and on moving users it gives 0.434 to 0.436 against 0.445 to 0.458 for the matched placements. The regime, moving or pause-dominated, therefore matters more than the specific model. A mobility-aware placement should be trained on mobility of the same regime as its users, and when the population mixes both, it should be checked against the oblivious baseline, because a diversity-seeking placement can do worse than MPC for users who stay put.
+Mismatch is costly when the training model moves and the actual users mostly do not. A placement trained on any of the five moving models and used with static users gives 0.345 to 0.383, 8.8\% to 17.9\% below MPC; used with L\'evy walkers it gives 0.361 to 0.396, again below MPC. Training on the L\'evy walk is conservative: it is never more than 0.002 below MPC, and on moving users it gives 0.438 to 0.443 against 0.458 to 0.498 for the matched placements. The regime, moving or pause-dominated, therefore matters more than the specific model.
+
+\subsection{A Mixed Population}
+\label{subsec:mixed}
+
+\begin{table}[t]
+\centering
+\caption{Effective hit ratio with 70\% static users and 30\% random walkers, mean of 5 seeds}
+\label{tab:mixed}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{rcccc}
+\hline
+$v$ (m/s) & MPC & MA, trained & MA, trained & LRU \\
+ & & on the mix & on movers only & \\
+\hline
+1 & 0.420 & 0.421 & 0.419 & 0.232 \\
+2 & 0.420 & 0.421 & 0.417 & 0.232 \\
+5 & 0.420 & 0.422 & 0.410 & 0.223 \\
+10 & 0.420 & 0.423 & 0.405 & 0.209 \\
+20 & 0.420 & 0.423 & 0.395 & 0.186 \\
+\hline
+\end{tabular}
+\end{table}
+
+Real cells hold a mix of users who stay and users who move. Table~\ref{tab:mixed} repeats the small-cell experiment with 70\% of the users static and the rest following a random walk at speed $v$. The mobility-aware placement is trained either on an independent run of the same mix or, as a model-mismatch case, on a population in which every user moves.
+
+Trained on the mix, the mobility-aware placement gains little: 0.8\% over MPC at 20~m/s (0.423 against 0.420; the paired 95\% confidence half-width of the difference is 0.003). A single placement per cell must serve both groups, and when most requests come from users who stay, the placement keeps the popular files in every cell and behaves almost like MPC. Trained on movers only, the placement diversifies the caches for users who do not move, and it falls below MPC by 2.4\% at 5~m/s, 3.5\% at 10~m/s and 5.9\% at 20~m/s. LRU still loses deliveries to handovers, but less than with an all-moving population (0.186 against 0.063 to 0.146 at 20~m/s), because most of its users stay in their cells.
+
+Two conclusions follow. A mobility-aware placement should be trained on the whole population, including the users who do not move, and when the population mixes both, it should be checked against the oblivious baseline, because a diversity-seeking placement can do worse than MPC for users who stay put. Gains measured for all-moving populations, here and in the surveyed papers, are therefore likely to overstate the gain in a network where most users are static.
