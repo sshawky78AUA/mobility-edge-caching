@@ -1,0 +1,63 @@
+% ============================================================
+% Section 2: Background
+% ============================================================
+
+\section{Background on Edge Caching}
+\label{sec:background}
+
+This section fixes the terms used in the rest of the survey: where caches sit, how content is placed and delivered, how popularity is modeled, and which metrics measure the caching gain. Broader overviews are available in~\cite{bastug2014living,paschos2018role}.
+
+\subsection{Where Caches Sit}
+\label{subsec:where}
+
+Caches can sit at four edge tiers, and each sees user mobility differently. Caching deeper in the core is outside our scope.
+
+\emph{Small base stations and helpers.} FemtoCaching~\cite{shanmugam2013femtocaching} places storage at small-cell helpers with weak backhaul and decides which files each helper stores so that users in overlapping coverage areas are served locally. A user who moves between small cells sees the union of several caches over time, which is the starting point of most mobility-aware placement schemes~\cite{poularakis2013exploiting,poularakis2017code,ozfatura2020mobility}.
+
+\emph{User devices.} Devices can cache content and serve each other over D2D links~\cite{golrezaei2013femtocaching}. Here mobility decides who meets whom, and for how long.
+
+\emph{Roadside units and vehicles.} In vehicular networks, RSUs and vehicles cache content for vehicles that pass by. Speeds are high, dwell times under an RSU are short, and movement follows the road network~\cite{alnagar2022mobility,mahmood2019rich,yu2021mobility}.
+
+\emph{Unmanned aerial vehicles.} Cache-enabled UAVs act as flying base stations. Here two kinds of mobility meet: that of the users, which UAV placement can track~\cite{chen2017sky}, and that of the UAV itself, which can be planned~\cite{xu2018overcoming}.
+
+\subsection{Placement and Delivery}
+\label{subsec:placement}
+
+A caching scheme has two phases. In the \emph{placement} phase, usually run off-peak, caches are filled. In the \emph{delivery} phase, requests arrive and are served from a cache or, on a miss, over the backhaul. Placement is \emph{proactive} when it uses predicted demand before requests arrive~\cite{bastug2014living,tadrous2016optimal} and \emph{reactive} when the cache is updated after each request, as with least recently used (LRU) replacement. Coded caching~\cite{maddahali2014fundamental} stores coded segments so that one multicast transmission serves several users at once; coded segments also let a moving user collect a file from several caches~\cite{poularakis2013exploiting,ozfatura2020mobility}.
+
+Mobility acts on the two phases at different time scales. Placement is planned over minutes to hours, so it sees mobility through statistics such as which cells a user tends to visit. Delivery happens over seconds, so it sees mobility through whether the user stays connected long enough to receive the file.
+
+\subsection{Content Popularity}
+\label{subsec:popularity}
+
+Most caching papers draw requests from a Zipf law, in which the $n$-th most popular of $N$ files is requested with probability
+\begin{equation}
+p_n = \frac{n^{-\gamma}}{\sum_{m=1}^{N} m^{-\gamma}},
+\label{eq:zipf}
+\end{equation}
+where $\gamma>0$ is the skewness. Breslau \emph{et al.}~\cite{breslau1999web} found that web requests at proxy caches follow a Zipf-like distribution with an exponent that varies from trace to trace. A common simplification, which we also make in Section~\ref{sec:benchmark}, is that popularity is the same in every cell. Mobility then matters only through where and when the user is served.
+
+\subsection{Gain Metrics}
+\label{subsec:metrics}
+
+The surveyed papers measure the caching gain in different ways. The most common are:
+\begin{itemize}
+\item \emph{Hit ratio or hit probability}: the fraction of requests found in a cache the user can reach.
+\item \emph{Offloading ratio}: in D2D caching, the share of requested data delivered over D2D links instead of the base station~\cite{wang2017mobility}.
+\item \emph{Backhaul or macro-cell load}: the traffic that caches fail to absorb~\cite{poularakis2013exploiting,ozfatura2020mobility}.
+\item \emph{Latency or delay}: the time to deliver a file~\cite{alnagar2022mobility,krishnan2017mobility}.
+\item \emph{Service cost}: an operator cost that weighs proactive delivery against peak-hour delivery~\cite{tadrous2016optimal,hosny2016allerton}.
+\item \emph{Quality of experience}: user-side satisfaction, often tied to rate and delay~\cite{chen2017sky}.
+\end{itemize}
+
+For a mobile user, the hit ratio needs care. Let a request for file $f$ arrive at time $t$ from a user associated with cache $b(t)$, and let $\mathcal{X}_b$ be the set of files stored at $b$. The \emph{snapshot hit ratio} counts the request as a hit when $f\in\mathcal{X}_{b(t)}$. A file takes time to deliver, though. If the delivery needs $D$ seconds of uninterrupted connection and must finish within a deadline $T_d$, the request succeeds from caches only when, for some $s\in[t,t+T_d-D]$,
+\begin{equation}
+f\in\mathcal{X}_{b(s)} \quad\text{and}\quad b(\tau)=b(s)\ \ \forall\,\tau\in[s,s+D].
+\label{eq:effhit}
+\end{equation}
+We call the fraction of requests that satisfy~\eqref{eq:effhit} the \emph{effective hit ratio}. The two ratios coincide for a static user. For a moving user they can differ in either direction: a handover can cut a delivery short, and a visit to a second cache can complete a request that the first cache missed. The same distinction applies to D2D, where $b(s)$ is replaced by a peer in range. Section~\ref{sec:benchmark} reports both ratios, because a paper that reports only the snapshot ratio cannot show how mobility affects delivery.
+
+\subsection{How Predictable Is Human Mobility?}
+\label{subsec:predictability}
+
+Proactive caching assumes that where a user will be is predictable. Measurements of mobile phone users support this. Gonz\'alez \emph{et al.}~\cite{gonzalez2008understanding} followed 100{,}000 anonymized users for six months and found a high degree of temporal and spatial regularity, with each user returning often to a few locations. Song \emph{et al.}~\cite{song2010limits} measured the entropy of individual trajectories and found a 93\% potential predictability across the user base, largely independent of how far users travel. These results bound what a predictor can achieve; they do not say that any given caching scheme reaches the bound. Anticipatory networking more broadly, including mobility prediction for caching, is surveyed in~\cite{bui2017survey}.

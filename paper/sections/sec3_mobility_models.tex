@@ -1,0 +1,71 @@
+% ============================================================
+% Section 3: Mobility models used in edge caching
+% ============================================================
+
+\section{Mobility Models Used in Edge Caching}
+\label{sec:models}
+
+The caching gain depends on how long a user stays within reach of a cache and how often it meets other users, and the mobility model fixes both. We group the models used in the surveyed papers into five families (Fig.~\ref{fig:taxonomy}) and, for each, state what it keeps of real movement, what it leaves out, and which caching papers use it. Table~\ref{tab:models} collects the comparison. What each model implies for the gain is the subject of Section~\ref{sec:effect}.
+
+\begin{figure}[t]
+\centering
+\input{figures/fig_taxonomy.tex}
+\caption{The five families of mobility models in the edge caching literature. Moving down the list, models keep more of real movement and lose analytical tractability.}
+\label{fig:taxonomy}
+\end{figure}
+
+\subsection{Static Snapshot Models}
+\label{subsec:static}
+
+Stochastic-geometry analyses of caching place base stations, helpers and users as Poisson point processes (PPPs) and evaluate one snapshot of the network. Mobility is absent or enters as a single displacement of each user, as in Krishnan and Dhillon~\cite{krishnan2017mobility}, where each device moves by a distance $v$ between caching and request. The snapshot gives closed forms for hit and coverage probability, but it cannot say how long a user remains in a cell or how often two users meet, which are the quantities proactive and D2D caching depend on.
+
+\subsection{Synthetic Random Models}
+\label{subsec:synthetic}
+
+\subsubsection{Random walk}
+A user's position evolves as $\mathbf{x}(t)=\mathbf{x}(t-1)+\mathbf{y}_t$ with independent, identically distributed flight vectors $\mathbf{y}_t$. The model is memoryless, and on a torus its stationary spatial distribution is uniform. Our earlier D2D work~\cite{hosny2019performance} used a probabilistic random walk over a set of locations so that meeting probabilities could enter the caching problem in closed form.
+
+\subsubsection{Random waypoint}
+Each user picks a destination uniformly in the area, travels to it at a speed drawn from $[v_{\min},v_{\max}]$, pauses, and repeats. Its stationary spatial distribution is not uniform; users concentrate near the center of the area~\cite{bettstetter2004rwp}. Yoon \emph{et al.}~\cite{yoon2003rwp} showed that, as commonly simulated, RWP never reaches a steady state: the average speed keeps falling because users spend a growing share of time on slow trips, and some routing metrics dropped by up to 40\% over a 900-second run. Simulations should therefore start from the stationary distribution or discard a warm-up period. Lin \emph{et al.}~\cite{lin2013mobility} defined RWP over the whole plane to remove the boundary effect and derived the handover rate and sojourn time for hexagonal and Poisson base station layouts; the handover rate grows with the square root of base station density. Sojourn time is the window in which a small-cell cache can serve a user, so these results feed directly into a caching model.
+
+\subsubsection{Gauss-Markov}
+Speed and direction follow first-order autoregressive processes with a memory parameter $\alpha\in[0,1]$, so that motion changes smoothly instead of turning sharply at waypoints; $\alpha=0$ gives a random walk and $\alpha=1$ straight-line motion~\cite{camp2002survey}. The model needs a rule at the boundary, and that rule changes where users spend their time (Section~\ref{subsec:res-measured}).
+
+\subsubsection{L\'evy walk and SLAW}
+Rhee \emph{et al.}~\cite{rhee2011levy} found in GPS traces of people walking outdoors that flight lengths and pause times are heavy-tailed, close to a truncated L\'evy walk. SLAW~\cite{lee2009slaw} keeps these heavy tails and adds regularity: self-similar waypoints, trips planned with the least effort among known places, and a bounded area for each user. No caching analysis in our corpus uses either model, although heavy-tailed pauses decide how often a user is still in the same cell when its request arrives.
+
+\subsection{Structured Models: Markov Chains and Road Maps}
+\label{subsec:structured}
+
+Structured models restrict where a user can go next. The common form in proactive caching is a discrete-time Markov chain (DTMC) over cells, helpers or locations with transition matrix $\mathbf{P}$, used for small-cell helpers~\cite{poularakis2013exploiting,poularakis2017code,ozfatura2020mobility} and for D2D users moving among popular locations~\cite{hosny2016allerton}. Vehicular papers replace the abstract chain with a road map: the Manhattan grid~\cite{alnagar2019city}, freeway and city models~\cite{alnagar2022mobility}, and Markov models over roadside units (RSUs)~\cite{wang2024markov}. Yu \emph{et al.}~\cite{yu2021mobility} instead draw vehicle speeds from a truncated Gaussian law with Poisson arrivals at each RSU, which gives the dwell time under the RSU. Structured models are easy to plug into an optimization, but $\mathbf{P}$ is usually assumed known; when it is estimated from data, the estimation error becomes part of the caching problem.
+
+\subsection{Contact-Based Models}
+\label{subsec:contact}
+
+For D2D caching, what matters is when two users are close enough to exchange content, so contact-based models describe each pair by the times at which they meet and part. Wang \emph{et al.} use inter-contact times~\cite{wang2017mobility} and an alternating renewal process of contact and inter-contact durations~\cite{wang2018exploiting}. Jarray and Giovanidis~\cite{jarray2016mobility} give each D2D link a random lifetime with mean $\bar{\tau}$, so that a transfer fails if the link breaks before the file arrives. Contact models capture meetings directly but drop positions and base-station association.
+
+\subsection{Trace-Driven and Simulator-Driven Models}
+\label{subsec:traces}
+
+Traces replace the model with recorded movement. Public datasets include the GeoLife pedestrian GPS trajectories~\cite{zheng2010geolife} and the San Francisco taxi traces~\cite{piorkowski2009parsimonious}, on which Choi and Lim~\cite{choi2023deep} train an LSTM predictor. Guan \emph{et al.}~\cite{guan2014mobicacher} replay a WiFi access point trace, Mahmood \emph{et al.}~\cite{mahmood2019rich} simulate connected cars in an urban scenario, and the SUMO simulator~\cite{lopez2018sumo} generates vehicle traces for chosen road networks, as in~\cite{wangq2022proactive}. Traces keep daily regularity, the link between place and time, and realistic dwell times. Their cost is that a result holds for one city and period, speed cannot be swept freely, and, when the trace also trains a predictor, the gain mixes the effect of mobility with the accuracy of the predictor.
+
+\begin{table*}[t]
+\centering
+\caption{Mobility model families in edge caching, ordered from the most abstract to the most realistic}
+\label{tab:models}
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{1.8pt}
+\def\citepunct{,\,}\def\citedash{--}%  compact citation lists in this table
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llllll@{}}
+\hline
+Family & Models & Key parameters & Captures & Misses & Caching studies \\
+\hline
+Static snapshot & PPP with displacement & Density, displacement $v$ & Closed-form coverage & Sojourn, contact times & \cite{krishnan2017mobility} \\
+Synthetic random & RW, RWP, GM, L\'evy, SLAW & Speed, pause time, tails & Speed and pause effects & Regularity (except SLAW) & \cite{hosny2019performance} \\
+Structured & DTMC, Manhattan, freeway & $\mathbf{P}$, velocity, deadline & Next location; road layout & Error in $\mathbf{P}$; pause tails & \cite{poularakis2013exploiting,poularakis2017code,ozfatura2020mobility,hosny2016allerton,alnagar2019city,alnagar2022mobility,wang2024markov,yu2021mobility} \\
+Contact-based & Contacts, link lifetime & Contact rate, $\bar{\tau}$ & Pairwise D2D meetings & Positions; BS association & \cite{wang2017mobility,wang2018exploiting,jarray2016mobility} \\
+Trace-driven & GPS, taxi, WiFi; SUMO & Dataset, city, period & Real regularity, dwell times & Free sweeps; generality & \cite{guan2014mobicacher,mahmood2019rich,wangq2022proactive,choi2023deep} \\
+\hline
+\end{tabular*}
+\end{table*}

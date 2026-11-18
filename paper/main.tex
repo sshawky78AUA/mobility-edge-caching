@@ -1,0 +1,46 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\title{User Mobility in Edge Caching: A Survey of Models, Their Effect on Caching Gain, and a Unified Benchmark}
+
+\author{Sameh~Hosny and John~Tadrous%
+\thanks{S. Hosny is with the Electrical and Computer Engineering Department, American University of Armenia, Yerevan, Armenia (e-mail: sameh.hosny@aua.am).}%
+\thanks{J. Tadrous is with the Department of Electrical and Computer Engineering, Gonzaga University, Spokane, WA, USA. % TODO: confirm current affiliation and e-mail with John
+}}
+
+\maketitle
+
+\begin{abstract}
+Edge caching stores popular content at small base stations, user devices, roadside units and unmanned aerial vehicles, close to the users who request it. Users move, and the literature models their movement in many ways, from Poisson snapshots and random waypoint to Markov chains, contact processes and recorded traces. The reported effect of mobility on the caching gain varies just as widely: some studies find that mobility raises the gain, others that it lowers it. This survey reviews how user mobility is represented in edge caching and how it changes the gain. We group mobility models into five families, classify 24 caching studies across cellular, device-to-device (D2D), vehicular and UAV networks by how their caching decisions use mobility, and explain the conflicting findings through four mechanisms: new contacts and caches, interrupted delivery, duplication versus diversity, and unpredictable movement. Only 7 of the 24 studies vary mobility in their evaluation. We then present an open MATLAB benchmark that fixes the network, content and caching policies and changes only the mobility model. Across six moving models at the same nominal speed, the gain of one mobility-aware placement over most-popular caching ranges from 0.7\% to 24.3\%, and changing only the D2D transfer time turns the effect of mobility from positive to non-monotone to negative. The spread is explained by measured statistics, not by the model: the small-cell gain grows with the number of cells a user can reach before the deadline, and a closed-form prediction that uses only the contact-length distribution reproduces the D2D offloading ratio of all 210 tested configurations with a mean error of 0.004. A snapshot hit ratio and a delivery-aware hit ratio rank the placements in opposite orders. We close with reporting recommendations and open problems.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Edge caching, user mobility, mobility models, D2D caching, vehicular networks, UAV caching, proactive caching, benchmark.
+\end{IEEEkeywords}
+
+\input{sections/sec1_intro}
+\input{sections/sec2_background}
+\input{sections/sec3_mobility_models}
+\input{sections/sec4_problems}
+\input{sections/sec5_effect}
+\input{sections/sec6_benchmark}
+\input{sections/sec7_lessons}
+\input{sections/sec8_open}
+\input{sections/sec9_conclusion}
+
+\section*{Code and Data Availability}
+The MATLAB benchmark (which runs in MATLAB and GNU Octave), all raw results, the coding sheet of the surveyed studies and the source of this paper are available at \url{https://github.com/sshawky78AUA/mobility-edge-caching}. The code is released under the MIT license and the data under CC BY 4.0.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

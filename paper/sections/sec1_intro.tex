@@ -1,0 +1,53 @@
+% ============================================================
+% Section 1: Introduction
+% ============================================================
+
+\section{Introduction}
+\label{sec:intro}
+
+Caching popular content close to users is a standard way to cut backhaul traffic and delivery delay in wireless networks. Small base stations, user devices, roadside units and UAVs can all hold content, and a decade of work has shown how to decide what each cache should store~\cite{shanmugam2013femtocaching,golrezaei2013femtocaching,maddahali2014fundamental,bastug2014living,paschos2018role}. Much of that work assumes that each user stays attached to the same caches while it is served.
+
+A moving user changes the problem in two ways. Over the placement time scale it visits several caches, so it can reach the union of their content. Over the delivery time scale it may leave a cell, or lose contact with a peer, before the file arrives. Papers that account for mobility model it as a random displacement~\cite{krishnan2017mobility}, a Markov chain over cells~\cite{poularakis2013exploiting,ozfatura2020mobility}, contact processes between devices~\cite{wang2017mobility,wang2018exploiting}, a street grid~\cite{alnagar2019city} or recorded traces~\cite{chen2017sky,choi2023deep}, and they disagree on whether mobility raises the gain~\cite{wang2018exploiting} or lowers it~\cite{jarray2016mobility}.
+
+Mobile ad hoc networking faced the same situation twenty years ago, when Camp \emph{et al.}~\cite{camp2002survey} showed that the choice of mobility model alone changed the reported routing performance. Edge caching has not had this comparison. Of the 24 caching studies we coded, only 7 vary a mobility parameter in their evaluation, and none tests a placement under a mobility model other than its own.
+
+\subsection{Related Surveys}
+\label{subsec:related}
+
+Table~\ref{tab:surveys} lists the closest surveys. Overviews of wireless caching~\cite{bastug2014living,paschos2018role} treat mobility as one consideration among many; the others review mobility-aware caching~\cite{wang2016framework}, mobility prediction~\cite{bui2017survey} or D2D mobility models~\cite{waqas2020survey}. None compares mobility models against the caching gain under common conditions.
+
+\begin{table*}[t]
+\centering
+\caption{Related surveys and tutorials, as assessed by the authors (--: not a focus)}
+\label{tab:surveys}
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{llllll}
+\hline
+Work & Year & Scope & Mobility models reviewed & Effect on caching gain & Common comparison \\
+\hline
+\cite{camp2002survey} & 2002 & Mobility models for ad hoc networks & Synthetic & No (routing only) & Routing, several models \\
+\cite{bastug2014living} & 2014 & Proactive caching in 5G & -- & -- & No \\
+\cite{wang2016framework} & 2016 & Mobility-aware caching framework & Spatio-temporal properties & Partly & No \\
+\cite{bui2017survey} & 2017 & Anticipatory mobile networking & Prediction methods & Partly & No \\
+\cite{paschos2018role} & 2018 & Role of caching in future networks & -- & -- & No \\
+\cite{waqas2020survey} & 2020 & Mobility-aware D2D communications & D2D models and traces & No & No \\
+This survey & 2026 & User mobility in edge caching & Five families & Four mechanisms & Seven-model benchmark \\
+\hline
+\end{tabular}
+\end{table*}
+
+\subsection{Contributions and Organization}
+\label{subsec:contrib}
+
+We ask how user mobility is represented in edge caching (RQ1), where it enters the caching problem (RQ2), how it changes the caching gain (RQ3), whether results are comparable across papers (RQ4) and what is missing (RQ5). After background in Section~\ref{sec:background}, the contributions are:
+\begin{enumerate}
+\item a taxonomy of mobility models in five families (Section~\ref{sec:models});
+\item a classification of 24 caching studies across cellular, D2D, vehicular and UAV networks by model, use of mobility, metric and whether mobility is varied (Section~\ref{sec:problems});
+\item four mechanisms that explain the conflicting findings (Section~\ref{sec:effect});
+\item an open MATLAB benchmark that changes only the mobility model across seven models and six speeds, and shows which measured mobility statistics determine the gain (Section~\ref{sec:benchmark});
+\item reporting recommendations and open problems (Sections~\ref{sec:lessons} and~\ref{sec:open}).
+\end{enumerate}
+Section~\ref{sec:conclusion} concludes.
+
+\emph{Survey method.} We searched IEEE Xplore, the ACM Digital Library, ScienceDirect, arXiv and Google Scholar for 2013 to 2026, combining caching terms (edge, D2D, proactive, vehicular, UAV caching) with mobility terms (mobility, random waypoint, Markov, trace, sojourn, contact time). Papers were screened by title and abstract and coded for the fields of Table~\ref{tab:corpus}, from the full text where available and otherwise from the abstract; unsupported fields are marked as not coded. Every reference was checked against the publisher, DBLP, an institutional repository or arXiv. % TODO: update counts for the final corpus

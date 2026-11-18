@@ -1,0 +1,27 @@
+% ============================================================
+% Section 8: Open problems
+% ============================================================
+
+\section{Open Problems}
+\label{sec:open}
+
+\subsection{Traces That Can Be Shared and Swept}
+Trace-driven evaluation keeps the regularity of real movement, but a result holds for one city and one period, and the trace cannot be slowed down or sped up. The public datasets that appear in the caching literature are few: pedestrian GPS trajectories~\cite{zheng2010geolife}, taxi traces~\cite{piorkowski2009parsimonious}, and simulator output from SUMO~\cite{lopez2018sumo}. Several papers rely on traces that are not public. Section~\ref{sec:benchmark} suggests a practical middle path. The gain depends on a few statistics: the reach over the deadline, the probability of staying in the current cell, and the contact-length distribution. A synthetic model fitted to these statistics of a trace should reproduce the gain of the trace and can still be swept. Testing this on public traces is the next step.
+
+\subsection{Mobility-Prediction Uncertainty}
+Proactive caching under demand uncertainty has fundamental bounds~\cite{tadrous2016optimal}. The corresponding bounds for uncertainty in where users will be are missing, even though prediction-driven schemes now dominate vehicular and UAV caching. Robustness is usually tested, if at all, by perturbing one input~\cite{mahmood2019rich}. Section~\ref{subsec:mismatch} shows that training on the wrong mobility model can erase the advantage of a mobility-aware placement, so a bound that couples the prediction error with the caching gain would be directly useful in practice.
+
+\subsection{Joint Mobility and Demand}
+Most papers, and our benchmark, draw requests from one popularity law everywhere. When demand depends on place and time, as it does for location-based content, mobility changes both where a request is served and what is requested. Models that couple the two are rare.
+
+\subsection{Human-Like and Mixed Mobility}
+L\'evy walks and SLAW reproduce the heavy-tailed flights and pauses observed in GPS traces~\cite{rhee2011levy,lee2009slaw}, yet no coded caching analysis uses them. Real cells also mix pedestrians, cars and buses, and people often move in groups, as in the group mobility models reviewed by Camp \emph{et al.}~\cite{camp2002survey}. How these mixtures change contact and sojourn statistics, and hence the gain, is unexplored.
+
+\subsection{Two Moving Tiers}
+UAV caching adds a second source of mobility. Some papers move the cache to follow predicted user positions~\cite{chen2017sky}; others plan the UAV path over static users~\cite{xu2018overcoming}. A cache that moves while its users also move, with both trajectories partly controllable or predictable, has not been analyzed in the coded literature.
+
+\subsection{Delivery-Aware Metrics and Coded Delivery}
+The snapshot hit ratio hides the effect of mobility on delivery (Section~\ref{subsec:metrics}). Coded and segmented delivery can turn an interrupted transfer into a partial one that another cache completes~\cite{poularakis2013exploiting,ozfatura2020mobility}. Reporting effective hit ratios, and evaluating coded delivery across handovers under several mobility models, would make the results comparable across papers.
+
+\subsection{Caching Beyond Files}
+Edge caches increasingly hold computation results, models and compact semantic representations instead of complete files. These items are smaller and their value depends on the user's context, which in turn depends on where the user is. How mobility interacts with such caches, including caches run on low-power embedded hardware at the edge, is an open direction that the file-centric literature surveyed here does not address.

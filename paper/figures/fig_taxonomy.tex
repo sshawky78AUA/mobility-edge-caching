@@ -1,0 +1,15 @@
+% Taxonomy of mobility model families (TikZ). Requires \usepackage{tikz}
+% and \usetikzlibrary{positioning,arrows.meta}.
+\begin{tikzpicture}[
+  fam/.style={draw, rounded corners=3pt, text width=5.6cm, minimum height=0.95cm,
+              align=left, font=\footnotesize, inner sep=4pt},
+  node distance=0.22cm]
+\node[fam] (s) {\textbf{Static snapshot}\\ PPP users, one-step displacement};
+\node[fam, below=of s] (r) {\textbf{Synthetic random}\\ Random walk, RWP, Gauss-Markov, L\'evy, SLAW};
+\node[fam, below=of r] (m) {\textbf{Structured}\\ Cell DTMC, Manhattan grid, freeway};
+\node[fam, below=of m] (c) {\textbf{Contact-based}\\ Inter-contact, renewal, link lifetime};
+\node[fam, below=of c] (t) {\textbf{Trace-driven}\\ GPS, taxi and WiFi traces, SUMO};
+\draw[-{Latex[length=2mm]}, thick] ([xshift=0.3cm]s.north east) -- ([xshift=0.3cm]t.south east);
+\node[font=\scriptsize, align=left, anchor=west] at ([xshift=0.45cm]s.north east |- r.center) {more\\realism};
+\node[font=\scriptsize, align=left, anchor=west] at ([xshift=0.45cm]s.north east |- c.center) {less\\tractable};
+\end{tikzpicture}

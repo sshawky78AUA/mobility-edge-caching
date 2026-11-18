@@ -1,0 +1,71 @@
+% ============================================================
+% Section 4: How caching problems use mobility
+% Counts refer to the 24 caching studies in Table III.
+% ============================================================
+
+\section{How Caching Problems Use Mobility}
+\label{sec:problems}
+
+Section~\ref{sec:models} asked which mobility model a paper assumes; this section asks what the caching decision does with it. We use three levels:
+\begin{itemize}
+\item \emph{Mobility-oblivious}: the decision ignores user movement.
+\item \emph{Parametric}: the decision uses statistics of the model, such as transition probabilities, contact rates, speed or sojourn time.
+\item \emph{Prediction-driven}: the decision uses a forecast of each user's next cell, next RSU or trajectory.
+\end{itemize}
+Table~\ref{tab:corpus} codes the 24 caching studies of our corpus by architecture, model, level, metric, whether the evaluation varies mobility, and the effect of mobility it reports. Fifteen are parametric, seven prediction-driven, one is oblivious with respect to its users and one does not model mobility. By architecture, eight study vehicular networks, seven D2D, seven small cells and two UAVs. Our search favored papers that mention mobility, so oblivious caching, which is the default in the wider literature~\cite{shanmugam2013femtocaching,maddahali2014fundamental}, is under-represented. % TODO: refresh counts with the final corpus
+
+\begin{table*}[!t]
+\centering
+\caption{Coded caching studies. Level: P parametric, Pr prediction-driven, O oblivious. Swept: Y the evaluation varies a mobility parameter, N it does not, ? not yet checked. n.c.: not coded}
+\label{tab:corpus}
+\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{lllllll}
+\hline
+Ref. & Architecture & Mobility model & Level & Gain metric & Swept & Reported effect \\
+\hline
+\cite{poularakis2013exploiting} & Small cells, coded & DTMC over helpers, deadline & P & Macro-cell requests & ? & n.c. \\
+\cite{poularakis2017code} & Dense small cells & Markov random walk, human traces & Pr & Macro-cell load & ? & n.c. \\
+\cite{ozfatura2020mobility} & Small cells, coded & DTMC on a grid & P & Backhaul load & Y & Raises load if less predictable \\
+\cite{semiari2018caching} & mmW/$\mu$W HetNet & User speed through small cells & P & Handover failures, energy & ? & Mitigated by caching \\
+\cite{guan2014mobicacher} & Small cells & Known or predicted trajectories, WiFi trace & Pr & Caching utility & ? & n.c. \\
+\cite{tadrous2016optimal} & Cellular & Not modeled (demand uncertainty) & -- & Service cost & -- & -- \\
+\cite{abani2017proactive} & ICN edge & Prediction with uncertainty & Pr & n.c. & ? & n.c. \\
+\hline
+\cite{krishnan2017mobility} & D2D & PPP with displacement & P & Coverage, local delay & Y & Helps \\
+\cite{jarray2016mobility} & D2D & Random link lifetime & P & Service success probability & Y & Hurts \\
+\cite{wang2017mobility} & D2D & Inter-contact times & P & Offloading ratio & Y & Non-monotone in speed \\
+\cite{wang2018exploiting} & D2D & Alternating renewal & P & Offloading ratio & Y & Helps \\
+\cite{hosny2016allerton} & D2D & Periodic DTMC over locations & P & Service cost & N & Helps \\
+\cite{hosny2016globecom} & D2D & n.c. & P & n.c. & ? & n.c. \\
+\cite{hosny2019performance} & D2D & Probabilistic random walk & P & Service cost & ? & n.c. \\
+\hline
+\cite{alnagar2019city} & RSU & Manhattan city model & P & Latency & ? & n.c. \\
+\cite{alnagar2022mobility} & RSU & Freeway and city models & P & Latency & ? & n.c. \\
+\cite{tan2018mobility} & Vehicular & Mobility-aware reward & P & Operational cost & ? & n.c. \\
+\cite{mahmood2019rich} & Edge nodes, cars & Dwell time and paths, urban traces & P & Throughput, hit probability & Y & n.c. \\
+\cite{wang2024markov} & RSU & Markov mobility model & P & Hit rate & Y & n.c. \\
+\cite{yu2021mobility} & RSU & Truncated Gaussian speed, Poisson arrivals & Pr & Hit ratio & N & Hurts (stated) \\
+\cite{wangq2022proactive} & RSU & SUMO traces of two cities & Pr & Next-RSU accuracy & N & n.c. \\
+\cite{choi2023deep} & RSU, vehicles & San Francisco taxi traces, LSTM & Pr & Throughput, delay, cost & N & Hurts (stated) \\
+\hline
+\cite{chen2017sky} & UAV & ESN prediction, BUPT pedestrian traces & Pr & QoE, transmit power & N & n.c. \\
+\cite{xu2018overcoming} & UAV, static nodes & UAV trajectory, nodes static & O & Caching and delivery time & -- & -- \\
+\hline
+\end{tabular}
+\end{table*}
+
+\subsection{Parametric Caching}
+\label{subsec:parametric}
+
+Parametric schemes are the majority and include almost all analytical work. Their models were described in Section~\ref{sec:models}; at the decision level they differ in what they optimize. Small-cell schemes place coded segments so that a user collects a file from the helpers it visits before a deadline~\cite{poularakis2013exploiting,ozfatura2020mobility}. Semiari \emph{et al.}~\cite{semiari2018caching} reverse the direction: a fast user caches content ahead of time so that it can skip a handover into a millimeter wave small cell. D2D schemes choose what each device stores given contact or meeting statistics~\cite{wang2017mobility,wang2018exploiting,hosny2016allerton,hosny2019performance}. Vehicular schemes fold speed, dwell time or the sequence of RSUs into the placement~\cite{alnagar2019city,alnagar2022mobility,mahmood2019rich,wang2024markov} or into the reward of a reinforcement learning agent~\cite{tan2018mobility}. Their common weakness is that the parameters are taken as known; few test how the placement degrades when they are wrong.
+
+\subsection{Prediction-Driven Caching}
+\label{subsec:prediction}
+
+Prediction-driven schemes forecast where each user goes next and cache accordingly, using mobility predictions with network coding~\cite{poularakis2017code}, known or predicted trajectories~\cite{guan2014mobicacher}, echo state networks for UAV placement~\cite{chen2017sky}, federated learning~\cite{yu2021mobility}, bandit learning of the next RSU~\cite{wangq2022proactive}, or LSTM trajectory prediction~\cite{choi2023deep}. Prediction error is the central risk. Abani \emph{et al.}~\cite{abani2017proactive} hedge by caching beyond the edge, and Mahmood \emph{et al.}~\cite{mahmood2019rich} find that only large errors in dwell time and path visibly affect performance. Tadrous and Eryilmaz~\cite{tadrous2016optimal} bound the cost of proactive caching under demand-prediction uncertainty; the corresponding bound for mobility-prediction uncertainty is not available in the coded papers.
+
+\subsection{Mobility-Oblivious Caching}
+\label{subsec:oblivious}
+
+An oblivious scheme evaluated under mobility shows how much a mobility-aware design adds, and Section~\ref{sec:benchmark} uses most-popular caching for this purpose. Xu \emph{et al.}~\cite{xu2018overcoming} illustrate a second kind of mobility: the ground nodes are static, and the UAV pushes content into their caches while in range so that requests can be served after it leaves.

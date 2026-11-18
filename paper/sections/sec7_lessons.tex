@@ -1,0 +1,18 @@
+% ============================================================
+% Section 7: Lessons learned and reporting recommendations
+% ============================================================
+
+\section{Lessons Learned and Reporting Recommendations}
+\label{sec:lessons}
+
+Read together, the survey and the benchmark show that a reported effect of mobility depends on four choices besides the mobility itself: the model, the caching policy, the delivery requirement and the metric. The benchmark also shows that the model name and the nominal speed are the wrong description of mobility. What the gain depends on is a small set of measured statistics: the reach of a user over the deadline for small-cell placement, the probability of staying in the current cell for reactive caching, and the contact-length distribution for D2D caching. Models that agree on these statistics give the same gain, and models that disagree on them give different gains at the same speed. This leads to four recommendations.
+
+\emph{Report the mobility a cache sees, not only the model.} A paper should give every model parameter, including pause times, boundary handling and how the initial state is set, and should report the measured statistics that drive the gain: mean speed including pauses, sojourn time per cell, reach over the deadline, and the contact and inter-contact durations. For traces, the dataset, area, period and preprocessing are also needed. With these statistics, a result can be compared with one obtained under a different model or trace.
+
+\emph{Use a delivery-aware metric.} The snapshot hit ratio can rank two placements in the opposite order to the effective hit ratio (Section~\ref{subsec:res-sbs}). The delivery time and the deadline should be stated with the metric.
+
+\emph{Compare against oblivious baselines under the same mobility.} A replicating policy such as MPC is immune to handovers, and a reactive policy such as LRU loses deliveries to them. Reporting both shows how much of the gain comes from using mobility and how much from the baseline's exposure to it.
+
+\emph{Vary mobility and test robustness.} A mobility parameter should be swept over the range of the target users, since the sign of the effect can change within that range (Section~\ref{subsec:res-d2d}). A mobility-aware or prediction-driven scheme should also be tested under mobility other than the one it was trained on (Section~\ref{subsec:mismatch}).
+
+\emph{Limits.} The corpus of 24 coded studies is a draft sample, and several rows are coded from abstracts. The benchmark uses one network size, popularity that is the same in every cell, uncoded caching and synthetic mobility only; each can be changed in the released code, and trace-driven runs are the most important addition. The predictor~\eqref{eq:d2dpred} assumes independent holders and a stationary contact sequence. Absolute hit ratios depend on the chosen cache sizes and popularity skew, so the conclusions concern how the gain responds to mobility. % TODO: remove the corpus caveat once the corpus is final

@@ -1,0 +1,25 @@
+bibkey,architecture,mobility_model,level,gain_metric,mobility_swept,reported_effect
+poularakis2013exploiting,"Small cells, coded","DTMC over helpers, deadline",parametric,Macro-cell requests,?,n.c.
+poularakis2017code,Dense small cells,"Markov random walk, human traces",prediction-driven,Macro-cell load,?,n.c.
+ozfatura2020mobility,"Small cells, coded",DTMC on a grid,parametric,Backhaul load,Y,Raises load if less predictable
+semiari2018caching,mmW/µW HetNet,User speed through small cells,parametric,"Handover failures, energy",?,Mitigated by caching
+guan2014mobicacher,Small cells,"Known or predicted trajectories, WiFi trace",prediction-driven,Caching utility,?,n.c.
+tadrous2016optimal,Cellular,Not modeled (demand uncertainty),not applicable,Service cost,--,--
+abani2017proactive,ICN edge,Prediction with uncertainty,prediction-driven,n.c.,?,n.c.
+krishnan2017mobility,D2D,PPP with displacement,parametric,"Coverage, local delay",Y,Helps
+jarray2016mobility,D2D,Random link lifetime,parametric,Service success probability,Y,Hurts
+wang2017mobility,D2D,Inter-contact times,parametric,Offloading ratio,Y,Non-monotone in speed
+wang2018exploiting,D2D,Alternating renewal,parametric,Offloading ratio,Y,Helps
+hosny2016allerton,D2D,Periodic DTMC over locations,parametric,Service cost,N,Helps
+hosny2016globecom,D2D,n.c.,parametric,n.c.,?,n.c.
+hosny2019performance,D2D,Probabilistic random walk,parametric,Service cost,?,n.c.
+alnagar2019city,RSU,Manhattan city model,parametric,Latency,?,n.c.
+alnagar2022mobility,RSU,Freeway and city models,parametric,Latency,?,n.c.
+tan2018mobility,Vehicular,Mobility-aware reward,parametric,Operational cost,?,n.c.
+mahmood2019rich,"Edge nodes, cars","Dwell time and paths, urban traces",parametric,"Throughput, hit probability",Y,n.c.
+wang2024markov,RSU,Markov mobility model,parametric,Hit rate,Y,n.c.
+yu2021mobility,RSU,"Truncated Gaussian speed, Poisson arrivals",prediction-driven,Hit ratio,N,Hurts (stated)
+wangq2022proactive,RSU,SUMO traces of two cities,prediction-driven,Next-RSU accuracy,N,n.c.
+choi2023deep,"RSU, vehicles","San Francisco taxi traces, LSTM",prediction-driven,"Throughput, delay, cost",N,Hurts (stated)
+chen2017sky,UAV,"ESN prediction, BUPT pedestrian traces",prediction-driven,"QoE, transmit power",N,n.c.
+xu2018overcoming,"UAV, static nodes","UAV trajectory, nodes static",oblivious,Caching and delivery time,--,--

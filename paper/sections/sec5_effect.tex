@@ -1,0 +1,52 @@
+% ============================================================
+% Section 5: Effect of mobility on the caching gain
+% ============================================================
+
+\section{Effect of Mobility on the Caching Gain}
+\label{sec:effect}
+
+The coded studies disagree on whether mobility raises or lowers the caching gain. Some find that it helps~\cite{krishnan2017mobility,wang2018exploiting,hosny2016allerton}, one that it hurts~\cite{jarray2016mobility}, and one that the best placement shifts with speed in a non-monotone way~\cite{wang2017mobility}. We trace the disagreement to four mechanisms, summarized in Table~\ref{tab:mechanisms}, and each model contains only some of them.
+
+\begin{table*}[t]
+\centering
+\caption{Mechanisms through which mobility changes the caching gain}
+\label{tab:mechanisms}
+\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{llll}
+\hline
+Mechanism & Sign & When it dominates & Evidence \\
+\hline
+New contacts and new caches & Raises gain & Short transfers; sparse caches with different contents & \cite{krishnan2017mobility,wang2018exploiting,hosny2016allerton,poularakis2013exploiting} \\
+Interrupted delivery & Lowers gain & Transfers long relative to contact or sojourn time; high speed & \cite{jarray2016mobility,semiari2018caching,yu2021mobility,mahmood2019rich} \\
+Duplication versus diversity & Either & Number of distinct caches met before the deadline & \cite{wang2017mobility,ozfatura2020mobility} \\
+Unpredictable movement & Lowers mobility-aware gain & High transition entropy, prediction error, model mismatch & \cite{ozfatura2020mobility,abani2017proactive,mahmood2019rich} \\
+\hline
+\end{tabular}
+\end{table*}
+
+\subsection{New Contacts and New Caches}
+\label{subsec:mech-contacts}
+
+A moving user meets more peers and passes more cells within a deadline than a static one, and each new contact is another chance to find the file. Under an alternating renewal model, the D2D offloading ratio provably increases with speed~\cite{wang2018exploiting}. Displacing users between caching and request improves coverage and local delay~\cite{krishnan2017mobility}, and higher meeting probabilities raise the proactive gain in our D2D model~\cite{hosny2016allerton}. In small cells, collecting coded segments from all helpers visited before the deadline is what makes mobility useful~\cite{poularakis2013exploiting}. The mechanism assumes that contacts last long enough and that the caches met hold different content; the next two mechanisms remove these assumptions.
+
+\subsection{Interrupted Delivery}
+\label{subsec:mech-interrupt}
+
+When a contact or a sojourn ends before the file arrives, the transfer is lost. With random link lifetimes, higher mobility lowers the service success probability, and small files fare better than large ones~\cite{jarray2016mobility}. At the cell level, fast users crossing millimeter wave small cells suffer handover failures, which caching can partly avoid~\cite{semiari2018caching}. Vehicular papers name the short dwell time under an RSU as the main obstacle~\cite{yu2021mobility}, and RICH stores content where cars move slowly, such as congested intersections, because that is where they have time to download~\cite{mahmood2019rich}. Which of the first two mechanisms wins is set by the ratio of transfer time to contact or sojourn time; Section~\ref{subsec:res-d2d} measures the crossover.
+
+\subsection{Duplication Versus Diversity}
+\label{subsec:mech-diversity}
+
+If every cache stores the same popular files, meeting more caches adds nothing. Wang \emph{et al.}~\cite{wang2017mobility} show that users moving very slowly or very fast should cache the most popular files, while users at medium speed should cache less popular ones to avoid duplication. Our reading is that diversity pays only when a user meets several distinct caches before the deadline, but not so many that the popular files are within reach anyway. Ozfatura and G\"und\"uz~\cite{ozfatura2020mobility} find similarly that the value of spreading coded segments depends on how many cells a user can reach. The reported effect of mobility therefore depends on the caching policy as well as the model: most-popular caching sees little benefit from mobility, a diversity-seeking placement can see a large one.
+
+\subsection{Unpredictable Movement}
+\label{subsec:mech-predict}
+
+Under a DTMC, the backhaul load rises as mobility becomes less predictable~\cite{ozfatura2020mobility}, so two networks with the same mean speed can give different gains. Prediction error (Section~\ref{subsec:prediction}) and model mismatch, a placement tuned to one model and used under another, act through this mechanism; Section~\ref{subsec:mismatch} measures the cost of mismatch.
+
+\subsection{How Strong Is the Evidence?}
+\label{subsec:evidence}
+
+Of the 24 coded studies, 7 vary a mobility parameter and report how the gain responds, 5 do not, 10 are not yet checked and 2 do not apply. Two of the five that do not vary mobility still describe it as harmful from the model alone~\cite{yu2021mobility,choi2023deep}. % TODO: refresh after full-text coding
+The well-supported results come from a few D2D and small-cell analyses; for vehicular and UAV caching, where speeds are highest, the effect is mostly asserted. The studies that do vary mobility also differ in model, metric, delivery requirement and policy, each of which can change the sign of the effect. Section~\ref{sec:benchmark} fixes all but the model.
