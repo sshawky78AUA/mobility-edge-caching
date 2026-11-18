@@ -13,9 +13,10 @@ Table~\ref{tab:corpus} codes the 24 caching studies of our corpus by architectur
 \centering
 \caption{Coded caching studies. Level: P parametric, Pr prediction-driven, O oblivious. Swept: Y the evaluation varies a mobility parameter, N it does not, A only the abstract was available and it reports no sweep. n.r.: no effect of mobility on the gain is reported}
 \label{tab:corpus}
-\scriptsize
-\renewcommand{\arraystretch}{1.1}
-\begin{tabular}{lllllll}
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllllll@{}}
 \hline
 Ref. & Architecture & Mobility model & Level & Gain metric & Swept & Reported effect \\
 \hline
@@ -47,7 +48,7 @@ Ref. & Architecture & Mobility model & Level & Gain metric & Swept & Reported ef
 \cite{chen2017sky} & UAV & ESN prediction, BUPT pedestrian traces & Pr & QoE, transmit power & N & n.r. \\
 \cite{xu2018overcoming} & UAV, static nodes & UAV trajectory, nodes static & O & Caching and delivery time & -- & -- \\
 \hline
-\end{tabular}
+\end{tabular*}
 \end{table*}
 
 \subsection{Parametric Caching}
