@@ -18,7 +18,8 @@ from matplotlib.ticker import FixedLocator, FixedFormatter, NullLocator
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(HERE, "results")
-OUT = os.path.join(HERE, "..", "figures")
+OUT = next(d for d in (os.path.join(HERE, "..", "paper", "figures"),
+                      os.path.join(HERE, "..", "figures")) if os.path.isdir(d))
 MODELS = ["static", "randwalk", "rwp", "gaussmarkov", "markovcell", "manhattan", "levy"]
 NAMES = ["Static", "Random walk", "RWP", "Gauss-Markov", "Markov cell", "Manhattan", "Lévy walk"]
 COLORS = ["#8a8a85", "#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#6250d6"]
@@ -78,7 +79,7 @@ def legend(fig, handles):
 
 
 def fig_sbs(raw):
-    fig, axs = plt.subplots(2, 2, figsize=(7.16, 4.0), constrained_layout=True)
+    fig, axs = plt.subplots(2, 2, figsize=(7.16, 3.55), constrained_layout=True)
     axs = axs.ravel()
     mpc = raw.eff_mpc.mean()
     panels = [("eff_ma", "(a) Mobility-aware placement, effective hit ratio", (0.32, 0.54)),
@@ -117,7 +118,7 @@ def fig_sbs(raw):
 
 
 def fig_d2d(raw, P):
-    fig, axs = plt.subplots(2, 2, figsize=(7.16, 4.0), constrained_layout=True)
+    fig, axs = plt.subplots(2, 2, figsize=(7.16, 3.55), constrained_layout=True)
     axs = axs.ravel()
     for ax, dd, lab, yl in zip(axs[:3], [2, 10, 30], "abc",
                                [(0.14, 0.50), (0.11, 0.27), (0.07, 0.19)]):

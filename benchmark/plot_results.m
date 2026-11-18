@@ -9,11 +9,12 @@ col = [138 138 133; 42 120 214; 235 104 52; 27 175 122; 237 161 0; 232 123 164; 
 mk  = {'none','o','s','^','d','v','p'};
 ls  = {'--','-','-','-','-','-','-'};
 names = P.names; names{7} = 'L\''evy walk';
-outdir = fullfile('..', 'figures');
+outdir = fullfile('..', 'paper', 'figures');
+if ~isfolder(outdir), outdir = fullfile('..', 'figures'); end
 mpc = mean(mean(A.eff(:,:,1)));
 
 % Fig. 2: SBS caching
-f = figure('Units', 'inches', 'Position', [1 1 7.16 4.0]);
+f = figure('Units', 'inches', 'Position', [1 1 7.16 3.55]);
 panels = {A.eff(:,:,2), A.snap(:,:,2), A.eff(:,:,3)};
 cis    = {A.eff_ci(:,:,2), A.t95 * A.snap_sd(:,:,2) / sqrt(numel(P.seeds)), A.eff_ci(:,:,3)};
 ttl = {'(a) Mobility-aware placement, effective hit ratio', ...
@@ -49,7 +50,7 @@ lg.Position(1:2) = [0.08 0.0];
 exportgraphics(f, fullfile(outdir, 'fig_sbs_hit.pdf'), 'ContentType', 'vector'); close(f);
 
 % Fig. 3: D2D offloading
-f = figure('Units', 'inches', 'Position', [1 1 7.16 4.0]);
+f = figure('Units', 'inches', 'Position', [1 1 7.16 3.55]);
 show = [find(P.Dd_list == 2), find(P.Dd_list == 10), find(P.Dd_list == 30)];
 yl = {[0.14 0.50], [0.11 0.27], [0.07 0.19]};
 for k = 1:3

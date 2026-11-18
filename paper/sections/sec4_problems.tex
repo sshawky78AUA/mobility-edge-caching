@@ -6,12 +6,7 @@
 \section{How Caching Problems Use Mobility}
 \label{sec:problems}
 
-Section~\ref{sec:models} asked which mobility model a paper assumes; this section asks what the caching decision does with it. We use three levels:
-\begin{itemize}
-\item \emph{Mobility-oblivious}: the decision ignores user movement.
-\item \emph{Parametric}: the decision uses statistics of the model, such as transition probabilities, contact rates, speed or sojourn time.
-\item \emph{Prediction-driven}: the decision uses a forecast of each user's next cell, next RSU or trajectory.
-\end{itemize}
+Section~\ref{sec:models} asked which mobility model a paper assumes; this section asks what the caching decision does with it. A decision is \emph{mobility-oblivious} if it ignores user movement, \emph{parametric} if it uses statistics of the model such as transition probabilities, contact rates, speed or sojourn time, and \emph{prediction-driven} if it uses a forecast of each user's next cell, next RSU or trajectory.
 Table~\ref{tab:corpus} codes the 24 caching studies of our corpus by architecture, model, level, metric, whether the evaluation varies mobility, and the effect of mobility it reports. Fifteen are parametric, seven prediction-driven, one is oblivious with respect to its users and one does not model mobility. By architecture, eight study vehicular networks, seven D2D, seven small cells and two UAVs. Our search favored papers that mention mobility, so oblivious caching, which is the default in the wider literature~\cite{shanmugam2013femtocaching,maddahali2014fundamental}, is under-represented. % TODO: refresh counts with the final corpus
 
 \begin{table*}[!t]

@@ -5,7 +5,7 @@
 \section{Mobility Models Used in Edge Caching}
 \label{sec:models}
 
-The caching gain depends on how long a user stays within reach of a cache and how often it meets other users, and the mobility model fixes both. We group the models used in the surveyed papers into five families (Fig.~\ref{fig:taxonomy}) and, for each, state what it keeps of real movement, what it leaves out, and which caching papers use it. Table~\ref{tab:models} collects the comparison. What each model implies for the gain is the subject of Section~\ref{sec:effect}.
+The caching gain depends on how long a user stays within reach of a cache and how often it meets other users, and the mobility model fixes both. We group the models used in the surveyed papers into five families (Fig.~\ref{fig:taxonomy}) and, for each, state what it keeps of real movement, what it leaves out, and which caching papers use it. Table~\ref{tab:models} collects the comparison.
 
 \begin{figure}[t]
 \centering
@@ -26,7 +26,7 @@ Stochastic-geometry analyses of caching place base stations, helpers and users a
 A user's position evolves as $\mathbf{x}(t)=\mathbf{x}(t-1)+\mathbf{y}_t$ with independent, identically distributed flight vectors $\mathbf{y}_t$. The model is memoryless, and on a torus its stationary spatial distribution is uniform. Our earlier D2D work~\cite{hosny2019performance} used a probabilistic random walk over a set of locations so that meeting probabilities could enter the caching problem in closed form.
 
 \subsubsection{Random waypoint}
-Each user picks a destination uniformly in the area, travels to it at a speed drawn from $[v_{\min},v_{\max}]$, pauses, and repeats. Its stationary spatial distribution is not uniform; users concentrate near the center of the area~\cite{bettstetter2004rwp}. Yoon \emph{et al.}~\cite{yoon2003rwp} showed that, as commonly simulated, RWP never reaches a steady state: the average speed keeps falling because users spend a growing share of time on slow trips, and some routing metrics dropped by up to 40\% over a 900-second run. Simulations should therefore start from the stationary distribution or discard a warm-up period. Lin \emph{et al.}~\cite{lin2013mobility} defined RWP over the whole plane to remove the boundary effect and derived the handover rate and sojourn time for hexagonal and Poisson base station layouts; the handover rate grows with the square root of base station density. Sojourn time is the window in which a small-cell cache can serve a user, so these results feed directly into a caching model.
+Each user picks a destination uniformly in the area, travels to it at a speed drawn from $[v_{\min},v_{\max}]$, pauses, and repeats. Its stationary spatial distribution is not uniform; users concentrate near the center of the area~\cite{bettstetter2004rwp}. Yoon \emph{et al.}~\cite{yoon2003rwp} showed that RWP, as commonly simulated, never reaches a steady state because users spend a growing share of time on slow trips; simulations should start from the stationary distribution or discard a warm-up. Lin \emph{et al.}~\cite{lin2013mobility} defined RWP over the whole plane to remove the boundary effect and derived the handover rate and sojourn time for hexagonal and Poisson base station layouts; the handover rate grows with the square root of base station density. Sojourn time is the window in which a small-cell cache can serve a user, so these results feed directly into a caching model.
 
 \subsubsection{Gauss-Markov}
 Speed and direction follow first-order autoregressive processes with a memory parameter $\alpha\in[0,1]$, so that motion changes smoothly instead of turning sharply at waypoints; $\alpha=0$ gives a random walk and $\alpha=1$ straight-line motion~\cite{camp2002survey}. The model needs a rule at the boundary, and that rule changes where users spend their time (Section~\ref{subsec:res-measured}).
@@ -54,7 +54,7 @@ Traces replace the model with recorded movement. Public datasets include the Geo
 \caption{Mobility model families in edge caching, ordered from the most abstract to the most realistic}
 \label{tab:models}
 \footnotesize
-\renewcommand{\arraystretch}{1.35}
+\renewcommand{\arraystretch}{1.15}
 \setlength{\tabcolsep}{1.8pt}
 \def\citepunct{,\,}\def\citedash{--}%  compact citation lists in this table
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llllll@{}}

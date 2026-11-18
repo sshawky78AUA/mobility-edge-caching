@@ -8,7 +8,7 @@
 \section{A Unified Benchmark of Mobility Models}
 \label{sec:benchmark}
 
-To separate the factors identified in Section~\ref{sec:effect}, we built one benchmark in which the network, content, requests and caching policies are fixed and only the mobility model changes. Beyond comparing models, we ask which measured property of the mobility determines the gain, so that a result obtained under one model can be carried over to another. The MATLAB code runs unchanged in GNU Octave and is released with the paper.
+To separate the factors identified in Section~\ref{sec:effect}, we built one benchmark in which the network, content, requests and caching policies are fixed and only the mobility model changes. Beyond comparing models, we ask which measured property of the mobility determines the gain, so that a result obtained under one model can be carried over to another.
 
 \subsection{Setup}
 \label{subsec:setup}
@@ -22,7 +22,7 @@ A request must be delivered within $T_d=60$~s. Following~\eqref{eq:effhit}, deli
 \caption{Benchmark parameters}
 \label{tab:params}
 \footnotesize
-\renewcommand{\arraystretch}{1.1}
+\renewcommand{\arraystretch}{1.0}
 \begin{tabular}{ll@{\hspace{0.6cm}}ll}
 \hline
 Parameter & Value & Model & Setting \\
@@ -57,7 +57,7 @@ treating visits as independent, until every cache is full. $\mathbf{W}$ and $\pi
 \end{itemize}
 D2D caches keep the fixed popularity-proportional placement, so that changes in D2D offloading come from mobility alone. We report the snapshot and effective hit ratios of Section~\ref{subsec:metrics} and the D2D offloading ratio.
 
-\emph{Statistics.} Each configuration runs for one measured hour with 10 independent seeds. Figures show the mean with 95\% confidence intervals; the half-width is at most 0.006 for every hit and offloading ratio. Every run discards a 2000~s warm-up. The warm-up matters for RWP: started with speeds in $(0,2v]$ and uniform positions~\cite{yoon2003rwp}, our RWP at $v=5$~m/s slowed from 2.4~m/s in its first 20 minutes to 1.3~m/s in its fourth hour, and its D2D offloading ratio drifted from 0.29 to 0.25 for $D_d=2$~s and from 0.13 to 0.15 for $D_d=30$~s (three seeds). The benchmark RWP uses a positive minimum speed and the warm-up, and stays at 3.6~m/s.
+\emph{Statistics.} Each configuration runs for one measured hour with 10 independent seeds. Figures show the mean with 95\% confidence intervals; the half-width is at most 0.006 for every hit and offloading ratio. Every run discards a 2000~s warm-up. Without it and with speeds in $(0,2v]$~\cite{yoon2003rwp}, our RWP at $v=5$~m/s slowed from 2.4 to 1.3~m/s over four hours and its D2D offloading drifted by up to 0.04 (three seeds); with a positive minimum speed and the warm-up it stays at 3.6~m/s.
 
 \subsection{Measured Mobility}
 \label{subsec:res-measured}
@@ -67,7 +67,7 @@ D2D caches keep the fixed popularity-proportional placement, so that changes in 
 \caption{Measured mobility statistics at $v=5$~m/s}
 \label{tab:stats}
 \footnotesize
-\renewcommand{\arraystretch}{1.1}
+\renewcommand{\arraystretch}{1.0}
 \setlength{\tabcolsep}{2.2pt}
 \begin{tabular}{lrrrrrr}
 \hline
@@ -84,7 +84,7 @@ L\'evy walk & 0.81 & 193.6 & 15.0 & 50.8 & 245 & 1.15 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:stats} reports, at $v=5$~m/s, the measured mean speed including pauses, the mean sojourn time in a cell, the handover rate, the mean contact and inter-contact durations of a user pair, and the \emph{reach}: the mean number of distinct SBSs with which a user, at a random instant, stays for at least $D_s$ within the next $T_d$. At the same nominal speed the models differ widely. The mean inter-contact time ranges from 435~s (Gauss-Markov) to 826~s (RWP), and the L\'evy walk, whose heavy-tailed pauses dominate, moves at 0.81~m/s on average. The spatial distribution also differs. RWP users concentrate near the center~\cite{bettstetter2004rwp}: at 2~m/s, 18.6\% of user-time falls in the central 300~m $\times$ 300~m square, which is 9\% of the area. With the steering rule of Table~\ref{tab:params}, Gauss-Markov users avoid the border at low speed and occupy it uniformly at 20~m/s. The rest of this section shows which of these statistics the gain depends on.
+Table~\ref{tab:stats} reports, at $v=5$~m/s, the measured mean speed including pauses, the mean sojourn time in a cell, the handover rate, the mean contact and inter-contact durations of a user pair, and the \emph{reach}: the mean number of distinct SBSs with which a user, at a random instant, stays for at least $D_s$ within the next $T_d$. At the same nominal speed the models differ widely. The mean inter-contact time ranges from 435~s (Gauss-Markov) to 826~s (RWP), and the L\'evy walk, whose heavy-tailed pauses dominate, moves at 0.81~m/s on average. The spatial distribution also differs. RWP users concentrate near the center~\cite{bettstetter2004rwp}: at 2~m/s, 18.6\% of user-time falls in the central 300~m $\times$ 300~m square, which is 9\% of the area. With the steering rule of Table~\ref{tab:params}, Gauss-Markov users avoid the border at low speed and occupy it uniformly at 20~m/s.
 
 \subsection{Small-Cell Caching}
 \label{subsec:res-sbs}
@@ -116,9 +116,7 @@ Table~\ref{tab:stats} reports, at $v=5$~m/s, the measured mean speed including p
 \label{fig:d2d}
 \end{figure*}
 
-Fig.~\ref{fig:d2d}a--c reproduces the three conclusions found in the literature, in one setting, by changing only the transfer time.
-
-\emph{Short transfers: mobility helps.} With $D_d=2$~s, offloading grows with speed under every moving model, from 0.158 for static users to between 0.432 (Manhattan) and 0.486 (Markov cell) at 20~m/s; the L\'evy walk reaches only 0.207. This agrees with the renewal-model result that offloading increases with speed~\cite{wang2018exploiting}.
+Fig.~\ref{fig:d2d}a--c reproduces the three conclusions found in the literature, in one setting, by changing only the transfer time. \emph{Short transfers: mobility helps.} With $D_d=2$~s, offloading grows with speed under every moving model, from 0.158 for static users to between 0.432 (Manhattan) and 0.486 (Markov cell) at 20~m/s; the L\'evy walk reaches only 0.207. This agrees with the renewal-model result that offloading increases with speed~\cite{wang2018exploiting}.
 
 \emph{Long transfers: mobility hurts.} With $D_d=30$~s, offloading falls with speed and, for every model except the L\'evy walk, drops to between 0.084 and 0.096 at 20~m/s, below the static network. At that speed contacts last 3 to 5~s on average. This agrees with the link-lifetime result that higher mobility lowers the success probability~\cite{jarray2016mobility}.
 
@@ -146,7 +144,7 @@ Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ i
 \caption{Effective hit ratio when the mobility-aware placement is trained on one model (rows) and used under another (columns), $v=5$~m/s, mean of 10 seeds. MPC gives 0.420 in every column.}
 \label{tab:mismatch}
 \footnotesize
-\renewcommand{\arraystretch}{1.1}
+\renewcommand{\arraystretch}{1.0}
 \setlength{\tabcolsep}{2.6pt}
 \begin{tabular}{lccccccc}
 \hline
