@@ -79,7 +79,7 @@ def legend(fig, handles):
 
 
 def fig_sbs(raw):
-    fig, axs = plt.subplots(2, 2, figsize=(7.16, 3.55), constrained_layout=True)
+    fig, axs = plt.subplots(2, 2, figsize=(7.16, 4.0), constrained_layout=True)
     axs = axs.ravel()
     mpc = raw.eff_mpc.mean()
     panels = [("eff_ma", "(a) Mobility-aware placement, effective hit ratio", (0.32, 0.54)),
@@ -118,7 +118,7 @@ def fig_sbs(raw):
 
 
 def fig_d2d(raw, P):
-    fig, axs = plt.subplots(2, 2, figsize=(7.16, 3.55), constrained_layout=True)
+    fig, axs = plt.subplots(2, 2, figsize=(7.16, 4.0), constrained_layout=True)
     axs = axs.ravel()
     for ax, dd, lab, yl in zip(axs[:3], [2, 10, 30], "abc",
                                [(0.14, 0.50), (0.11, 0.27), (0.07, 0.19)]):

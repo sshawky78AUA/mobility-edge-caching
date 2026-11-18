@@ -11,7 +11,7 @@ Table~\ref{tab:corpus} codes the 24 caching studies of our corpus by architectur
 
 \begin{table*}[!t]
 \centering
-\caption{Coded caching studies. Level: P parametric, Pr prediction-driven, O oblivious. Swept: Y the evaluation varies a mobility parameter, N it does not, ? not yet checked. n.c.: not coded}
+\caption{Coded caching studies. Level: P parametric, Pr prediction-driven, O oblivious. Swept: Y the evaluation varies a mobility parameter, N it does not, A only the abstract was available and it reports no sweep. n.r.: no effect of mobility on the gain is reported}
 \label{tab:corpus}
 \scriptsize
 \renewcommand{\arraystretch}{1.1}
@@ -19,32 +19,32 @@ Table~\ref{tab:corpus} codes the 24 caching studies of our corpus by architectur
 \hline
 Ref. & Architecture & Mobility model & Level & Gain metric & Swept & Reported effect \\
 \hline
-\cite{poularakis2013exploiting} & Small cells, coded & DTMC over helpers, deadline & P & Macro-cell requests & ? & n.c. \\
-\cite{poularakis2017code} & Dense small cells & Markov random walk, human traces & Pr & Macro-cell load & ? & n.c. \\
+\cite{poularakis2013exploiting} & Small cells, coded & DTMC over helpers, deadline & P & Requests served by macro BS & N & n.r. \\
+\cite{poularakis2017code} & Dense small cells & Markov random walk, human traces & Pr & Macro-cell load & A & n.r. \\
 \cite{ozfatura2020mobility} & Small cells, coded & DTMC on a grid & P & Backhaul load & Y & Raises load if less predictable \\
-\cite{semiari2018caching} & mmW/$\mu$W HetNet & User speed through small cells & P & Handover failures, energy & ? & Mitigated by caching \\
-\cite{guan2014mobicacher} & Small cells & Known or predicted trajectories, WiFi trace & Pr & Caching utility & ? & n.c. \\
+\cite{semiari2018caching} & mmW/$\mu$W HetNet & User speed through small cells & P & Handover failures, energy & Y & Hurts; caching mitigates \\
+\cite{guan2014mobicacher} & Small cells & Known trajectories, WiFi trace & Pr & Caching utility & Y & Larger when users move more \\
 \cite{tadrous2016optimal} & Cellular & Not modeled (demand uncertainty) & -- & Service cost & -- & -- \\
-\cite{abani2017proactive} & ICN edge & Prediction with uncertainty & Pr & n.c. & ? & n.c. \\
+\cite{abani2017proactive} & ICN edge & Prediction with uncertainty & Pr & Latency, backhaul, server load & A & n.r. \\
 \hline
 \cite{krishnan2017mobility} & D2D & PPP with displacement & P & Coverage, local delay & Y & Helps \\
 \cite{jarray2016mobility} & D2D & Random link lifetime & P & Service success probability & Y & Hurts \\
 \cite{wang2017mobility} & D2D & Inter-contact times & P & Offloading ratio & Y & Non-monotone in speed \\
 \cite{wang2018exploiting} & D2D & Alternating renewal & P & Offloading ratio & Y & Helps \\
-\cite{hosny2016allerton} & D2D & Periodic DTMC over locations & P & Service cost & N & Helps \\
-\cite{hosny2016globecom} & D2D & n.c. & P & n.c. & ? & n.c. \\
-\cite{hosny2019performance} & D2D & Probabilistic random walk & P & Service cost & ? & n.c. \\
+\cite{hosny2016allerton} & D2D & Periodic DTMC over locations & P & Service cost & N & Helps (analytical) \\
+\cite{hosny2016globecom} & D2D & Probabilistic random walk & P & Service cost, memory & N & Helps (stated) \\
+\cite{hosny2019performance} & D2D & Probabilistic random walk & P & Service cost & N & Helps (analytical) \\
 \hline
-\cite{alnagar2019city} & RSU & Manhattan city model & P & Latency & ? & n.c. \\
-\cite{alnagar2022mobility} & RSU & Freeway and city models & P & Latency & ? & n.c. \\
-\cite{tan2018mobility} & Vehicular & Mobility-aware reward & P & Operational cost & ? & n.c. \\
-\cite{mahmood2019rich} & Edge nodes, cars & Dwell time and paths, urban traces & P & Throughput, hit probability & Y & n.c. \\
-\cite{wang2024markov} & RSU & Markov mobility model & P & Hit rate & Y & n.c. \\
+\cite{alnagar2019city} & RSU & Manhattan city model & P & Latency & N & n.r. \\
+\cite{alnagar2022mobility} & RSU & Freeway and city models & P & Latency & Y & Gain grows with speed \\
+\cite{tan2018mobility} & Vehicular & Mobility-aware reward & P & Operational cost & A & n.r. \\
+\cite{mahmood2019rich} & Edge nodes, cars & Dwell time and paths, urban traces & P & Throughput, hit probability & N & Robust to small errors \\
+\cite{wang2024markov} & RSU & Markov mobility model & P & Hit rate & Y & n.r. \\
 \cite{yu2021mobility} & RSU & Truncated Gaussian speed, Poisson arrivals & Pr & Hit ratio & N & Hurts (stated) \\
-\cite{wangq2022proactive} & RSU & SUMO traces of two cities & Pr & Next-RSU accuracy & N & n.c. \\
+\cite{wangq2022proactive} & RSU & SUMO traces of two cities & Pr & Next-RSU accuracy & N & n.r. \\
 \cite{choi2023deep} & RSU, vehicles & San Francisco taxi traces, LSTM & Pr & Throughput, delay, cost & N & Hurts (stated) \\
 \hline
-\cite{chen2017sky} & UAV & ESN prediction, BUPT pedestrian traces & Pr & QoE, transmit power & N & n.c. \\
+\cite{chen2017sky} & UAV & ESN prediction, BUPT pedestrian traces & Pr & QoE, transmit power & N & n.r. \\
 \cite{xu2018overcoming} & UAV, static nodes & UAV trajectory, nodes static & O & Caching and delivery time & -- & -- \\
 \hline
 \end{tabular}

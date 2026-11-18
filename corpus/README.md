@@ -6,8 +6,7 @@ one caching study, identified by its key in `paper/refs.bib`.
 | Column | Values |
 |---|---|
 | `level` | how the caching decision uses mobility: parametric, prediction-driven, oblivious, not applicable |
-| `mobility_swept` | Y: the evaluation varies a mobility parameter; N: it does not; ?: not yet checked; --: not applicable |
-| `reported_effect` | effect of mobility on the gain as reported by the authors; n.c.: not coded |
+| `mobility_swept` | Y: the evaluation varies a mobility parameter; N: it does not; A: only the abstract was available and it reports no sweep; --: not applicable |
+| `reported_effect` | effect of mobility on the gain as reported by the authors; n.r.: not reported |
 
-Rows were coded from the full text where available and otherwise from the abstract.
-The corpus is a draft and will be extended before submission.
+Rows were coded from the full text; the three rows marked A were coded from the abstract.

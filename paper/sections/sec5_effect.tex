@@ -5,7 +5,7 @@
 \section{Effect of Mobility on the Caching Gain}
 \label{sec:effect}
 
-The coded studies disagree on whether mobility raises or lowers the caching gain. Some find that it helps~\cite{krishnan2017mobility,wang2018exploiting,hosny2016allerton}, one that it hurts~\cite{jarray2016mobility}, and one that the best placement shifts with speed in a non-monotone way~\cite{wang2017mobility}. We trace the disagreement to four mechanisms, summarized in Table~\ref{tab:mechanisms}, and each model contains only some of them.
+The coded studies disagree on whether mobility raises or lowers the caching gain. Some find that it helps~\cite{krishnan2017mobility,wang2018exploiting,guan2014mobicacher,alnagar2022mobility}, some that it hurts~\cite{jarray2016mobility,semiari2018caching}, and one that the best placement shifts with speed in a non-monotone way~\cite{wang2017mobility}. We trace the disagreement to four mechanisms, summarized in Table~\ref{tab:mechanisms}, and each model contains only some of them.
 
 \begin{table*}[t]
 \centering
@@ -48,5 +48,4 @@ Under a DTMC, the backhaul load rises as mobility becomes less predictable~\cite
 \subsection{How Strong Is the Evidence?}
 \label{subsec:evidence}
 
-Of the 24 coded studies, 7 vary a mobility parameter and report how the gain responds, 5 do not, 10 are not yet checked and 2 do not apply. Two of the five that do not vary mobility still describe it as harmful from the model alone~\cite{yu2021mobility,choi2023deep}. % TODO: refresh after full-text coding
-The well-supported results come from a few D2D and small-cell analyses; for vehicular and UAV caching, where speeds are highest, the effect is mostly asserted. The studies that do vary mobility also differ in model, metric, delivery requirement and policy, each of which can change the sign of the effect. Section~\ref{sec:benchmark} fixes all but the model.
+Of the 24 coded studies, 9 vary a mobility parameter in their evaluation, 10 do not, 3 could be coded only from the abstract, and 2 do not apply (Table~\ref{tab:corpus}). Two of the studies that do not vary mobility still describe it as harmful from the model alone~\cite{yu2021mobility,choi2023deep}. The well-supported results come from a few D2D and small-cell analyses. In vehicular and UAV caching, where speeds are highest, only two studies vary mobility~\cite{alnagar2022mobility,wang2024markov}, and only one of them reports how the gain responds. The studies that do vary mobility also differ in model, metric, delivery requirement and policy, each of which can change the sign of the effect. Section~\ref{sec:benchmark} fixes all but the model.

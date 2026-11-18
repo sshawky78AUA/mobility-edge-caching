@@ -22,7 +22,7 @@ A request must be delivered within $T_d=60$~s. Following~\eqref{eq:effhit}, deli
 \caption{Benchmark parameters}
 \label{tab:params}
 \footnotesize
-\renewcommand{\arraystretch}{1.0}
+\renewcommand{\arraystretch}{1.1}
 \begin{tabular}{ll@{\hspace{0.6cm}}ll}
 \hline
 Parameter & Value & Model & Setting \\
@@ -42,11 +42,11 @@ Seeds & 10 per configuration & & \\
 \end{tabular}
 \end{table*}
 
-\emph{Mobility models.} We implement seven models from the synthetic and structured families of Section~\ref{sec:models}: static users, random walk, RWP, Gauss-Markov, a Markov chain over cells, a Manhattan grid and a truncated L\'evy walk. The parameter $v$ is the speed while moving. Users that reach a wall are reflected, and movement is interpolated at 1~s resolution so that a reflected path does not cut corners. The L\'evy parameters are illustrative and are not fitted to the traces of~\cite{rhee2011levy}. Trace-driven runs are not included; the code accepts a trace in place of a generator.
+\emph{Mobility models.} We implement seven models from the static, synthetic and structured families of Section~\ref{sec:models}: static users, random walk, RWP, Gauss-Markov, a Markov chain over cells, a Manhattan grid and a truncated L\'evy walk. The parameter $v$ is the speed while moving. Users that reach a wall are reflected, and movement is interpolated at 1~s resolution so that a reflected path does not cut corners. The L\'evy parameters are illustrative and are not fitted to the traces of~\cite{rhee2011levy}. Trace-driven runs are not included; the code accepts a trace in place of a generator.
 
 \emph{Caching policies.} Three SBS policies are compared.
 \begin{itemize}
-\item \emph{Most popular (MPC)}: every SBS stores the $C$ most popular files. It ignores mobility.
+\item \emph{Most-popular caching (MPC)}: every SBS stores the $C$ most popular files, regardless of mobility.
 \item \emph{Mobility-aware (MA)}: a greedy placement that uses the \emph{reach matrix} $\mathbf{W}$, where $W_{bb'}$ is the probability that a user at SBS $b$ at a request instant stays with SBS $b'$ for $D_s$ seconds before the deadline. With $\pi_b$ the share of time spent at $b$ and $x_{b'f}\in\{0,1\}$ the placement, the greedy step maximizes
 \begin{equation}
 \sum_{b}\pi_b\sum_{f}p_f\Big[1-\prod_{b'}\big(1-x_{b'f}W_{bb'}\big)\Big],
@@ -67,7 +67,7 @@ D2D caches keep the fixed popularity-proportional placement, so that changes in 
 \caption{Measured mobility statistics at $v=5$~m/s}
 \label{tab:stats}
 \footnotesize
-\renewcommand{\arraystretch}{1.0}
+\renewcommand{\arraystretch}{1.1}
 \setlength{\tabcolsep}{2.2pt}
 \begin{tabular}{lrrrrrr}
 \hline
@@ -132,9 +132,9 @@ The first term counts windows that open during a contact with at least $D_d$ sec
 \rho=\sum_f p_f\Big[q_f+(1-q_f)\big(1-(1-g\,q_f)^{U-1}\big)\Big].
 \label{eq:d2dpred}
 \end{equation}
-For static users $g$ is the fraction of pairs in range. We computed $g$ from the contact histogram of each run and compared~\eqref{eq:d2dpred} with the simulated ratio. Over the 210 configurations the mean absolute error is 0.004, 90\% of the errors are below 0.01, and the largest is 0.027, for the Markov cell model at 20~m/s with $D_d=2$~s, where many concurrent contacts make the independence assumption optimistic. All configurations fall on one curve (Fig.~\ref{fig:d2d}d): once $g(D_d)$ is known, neither the model nor the speed adds information.
+For static users $g$ is the fraction of pairs in range. We computed $g$ from the contact histogram of each run and compared~\eqref{eq:d2dpred} with the simulated ratio. Over the 210 configurations the mean absolute error is 0.004, 90\% of the errors are below 0.01, and the largest is 0.027, for the Markov cell model at 20~m/s with $D_d=2$~s, where many concurrent contacts make the independence assumption optimistic. All configurations fall close to one curve (Fig.~\ref{fig:d2d}d): once $g(D_d)$ is known, the model and the speed add little further information.
 
-Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ is close to the contact rate times $T_d$ and grows with speed. For a long one, only contacts longer than $D_d$ count, and their number falls as speed shortens contacts. The L\'evy walk is flat because its long pauses keep contacts long at every speed, and RWP gives the highest offloading among the moving models at low speed because its central concentration raises the contact rate. A mobility model therefore enters D2D caching only through its contact-length distribution, which can be measured from a trace and reported in a paper.
+Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ is close to the contact rate times $T_d$ and grows with speed. For a long one, only contacts longer than $D_d$ count, and their number falls as speed shortens contacts. The L\'evy walk is flat because its long pauses keep contacts long at every speed, and RWP gives the highest offloading among the moving models at low speed because its central concentration raises the contact rate. To this approximation, a mobility model affects D2D caching through its contact-length distribution, which can be measured from a trace and reported in a paper.
 
 \subsection{Training on the Wrong Model}
 \label{subsec:mismatch}
@@ -144,7 +144,7 @@ Equation~\eqref{eq:gdd} also explains the crossover. For a short transfer, $g$ i
 \caption{Effective hit ratio when the mobility-aware placement is trained on one model (rows) and used under another (columns), $v=5$~m/s, mean of 10 seeds. MPC gives 0.420 in every column.}
 \label{tab:mismatch}
 \footnotesize
-\renewcommand{\arraystretch}{1.0}
+\renewcommand{\arraystretch}{1.1}
 \setlength{\tabcolsep}{2.6pt}
 \begin{tabular}{lccccccc}
 \hline
@@ -165,4 +165,4 @@ Table~\ref{tab:mismatch} trains the mobility-aware placement on one model and us
 
 Among the five models in which users keep moving, mismatch costs little: in every column, the worst cross-model entry is within 0.009 of the matched one. In the RWP column every cross-trained placement does better than the one trained on RWP (0.449 to 0.451 against 0.445). This is the effect seen in Fig.~\ref{fig:sbs}d from the other side: RWP reach is concentrated on shared central cells, which~\eqref{eq:maobj} treats as independent visits, so a placement learned from more uniform movement spreads content better.
 
-Mismatch is costly when the training model moves and the actual users mostly do not. A placement trained on any of the five moving models and used with static users gives 0.385 to 0.399, 5.0\% to 8.2\% below MPC; used with L\'evy walkers it gives 0.397 to 0.409, again below MPC. Training on the L\'evy walk is safe but timid: it is never more than 0.002 below MPC, and on moving users it gives 0.434 to 0.436 against 0.445 to 0.458 for the matched placements. What matters is therefore the regime, moving or pause-dominated, more than the model. A mobility-aware placement should be trained on mobility of the same regime as its users, and when the population mixes both, it should be checked against the oblivious baseline, because a diversity-seeking placement can do worse than MPC for users who stay put.
+Mismatch is costly when the training model moves and the actual users mostly do not. A placement trained on any of the five moving models and used with static users gives 0.385 to 0.399, 5.0\% to 8.2\% below MPC; used with L\'evy walkers it gives 0.397 to 0.409, again below MPC. Training on the L\'evy walk is conservative: it is never more than 0.002 below MPC, and on moving users it gives 0.434 to 0.436 against 0.445 to 0.458 for the matched placements. The regime, moving or pause-dominated, therefore matters more than the specific model. A mobility-aware placement should be trained on mobility of the same regime as its users, and when the population mixes both, it should be checked against the oblivious baseline, because a diversity-seeking placement can do worse than MPC for users who stay put.
