@@ -2,8 +2,8 @@
 
 Code, data and LaTeX source for
 
-> S. Hosny and J. Tadrous, "User Mobility in Edge Caching: A Survey of Models,
-> Their Effect on Caching Gain, and a Unified Benchmark," manuscript in preparation for
+> S. Hosny and J. Tadrous, "Does User Mobility Help or Hurt Edge Caching?
+> A Survey and a Unified Benchmark," manuscript in preparation for
 > *IEEE Communications Surveys & Tutorials*, 2026.
 
 ## Contents

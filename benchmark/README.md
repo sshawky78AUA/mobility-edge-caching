@@ -1,7 +1,7 @@
 # Paper B benchmark: user mobility models in edge caching
 
-MATLAB code for Section VI of "User Mobility in Edge Caching: A Survey of Models,
-Their Effect on Caching Gain, and a Unified Benchmark". It runs unchanged in
+MATLAB code for Section VI of "Does User Mobility Help or Hurt Edge Caching?
+A Survey and a Unified Benchmark". It runs unchanged in
 GNU Octave (tested with Octave 8 on Ubuntu).
 
 ## Run
