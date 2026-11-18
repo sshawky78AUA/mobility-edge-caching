@@ -114,7 +114,7 @@ def fig_d2d(raw):
 
 def fig_predict(raw, P):
     """The two former (d) panels: SBS gain against reach, D2D offloading against g(Dd)."""
-    fig, axs = plt.subplots(1, 2, figsize=(7.16, 2.6), constrained_layout=True)
+    fig, axs = plt.subplots(1, 3, figsize=(7.16, 2.5), constrained_layout=True)
     # (d) gain against the measured reach
     ax = axs[0]
     m = raw.groupby(["model", "speed"]).mean(numeric_only=True).reset_index()
@@ -127,13 +127,26 @@ def fig_predict(raw, P):
     k = (mv.gain * (mv.mean_reach - 1)).sum() / ((mv.mean_reach - 1) ** 2).sum()
     xs = np.linspace(1, 3.4, 50)
     ax.plot(xs, k * (xs - 1), color="#2b2b28", lw=0.8, ls=":")
-    ax.text(1.05, 23.5, "Dotted: %.1f%% per additional SBS" % k, fontsize=6.5, color="#2b2b28")
+    ax.text(1.05, 23.5, "Dotted: %.1f%% per extra SBS" % k, fontsize=6.5, color="#2b2b28")
     ax.set_xlim(0.95, 3.4); ax.set_ylim(-1, 27)
-    ax.set_xlabel("Reach: SBSs usable within the deadline (mean)")
+    ax.set_xlabel("Reach (SBSs usable before deadline)")
     ax.set_ylabel("Gain (%)")
-    ax.set_title("(a) Gain over most popular against reach", loc="left")
+    ax.set_title("(a) MA gain against reach", loc="left")
     clean(ax)
+    # (b) LRU effective hit ratio against the probability of finishing in the first cell
     ax = axs[1]
+    for mod, c, mk in zip(MODELS, COLORS, MARKERS):
+        d = m[m.model == mod]
+        ax.plot(d.p_stay_first, d.eff_lru, ls="none", marker=mk if mk else "o", ms=4.5,
+                color=c, markeredgecolor="white", markeredgewidth=0.6)
+    xs = np.linspace(0, 1, 20)
+    ax.plot(xs, raw.snap_lru.mean() * xs, color="#2b2b28", lw=1.0)
+    ax.set_xlim(0.2, 1.02); ax.set_ylim(0.04, 0.26)
+    ax.set_xlabel(r"P(stay $\geq D_s$ in the first cell)")
+    ax.set_ylabel("LRU effective hit ratio")
+    ax.set_title("(b) LRU against P(stay $\\geq D_s$)", loc="left")
+    clean(ax)
+    ax = axs[2]
     M = P.groupby(["model", "speed", "Dd"])[["g", "sim", "pred"]].mean().reset_index()
     for mod, c, mk in zip(MODELS, COLORS, MARKERS):
         d = M[M.model == mod]
@@ -146,9 +159,9 @@ def fig_predict(raw, P):
     p = zipf(); q = inclusion_prob(p, reps=40000)
     ax.plot(gs, [predict_offload(g, p, q) for g in gs], color="#2b2b28", lw=1.0)
     ax.set_xscale("log"); ax.set_xlim(5e-4, 0.2); ax.set_ylim(0.07, 0.52)
-    ax.set_xlabel(r"Usable-contact probability per pair, $g(D_d)$")
+    ax.set_xlabel(r"Usable-contact probability $g(D_d)$")
     ax.set_ylabel("D2D offloading ratio")
-    ax.set_title("(b) All runs against $g(D_d)$; solid line: prediction", loc="left")
+    ax.set_title("(c) D2D offloading against $g(D_d)$", loc="left")
     clean(ax)
     hs = [plt.Line2D([], [], color=c, ls="none", marker=mk if mk else "o", ms=4.5,
                      markeredgecolor="white", markeredgewidth=0.6) for c, mk in zip(COLORS, MARKERS)]

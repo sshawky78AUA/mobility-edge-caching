@@ -53,9 +53,9 @@ lg.Position(1:2) = [0.08 0.0];
 exportgraphics(f, fullfile(outdir, 'fig_d2d.pdf'), 'ContentType', 'vector'); close(f);
 
 % Fig. 4: the two predictors (former panels 2d and 3d)
-f = figure('Units', 'inches', 'Position', [1 1 7.16 2.6]);
+f = figure('Units', 'inches', 'Position', [1 1 7.16 2.5]);
 % (a) gain against reach
-ax = subplot(1, 2, 1); hold(ax, 'on');
+ax = subplot(1, 3, 1); hold(ax, 'on');
 reach = A.stats(:,:,9); gain = 100 * (A.eff(:,:,2) ./ A.eff(:,:,1) - 1);
 for mi = 1:nm
   plot(reach(mi,:), gain(mi,:), 'LineStyle', 'none', 'Marker', mk{max(mi,2)}, ...
@@ -68,9 +68,20 @@ xs = linspace(1, 3.4, 50); plot(xs, kfit * (xs - 1), ':', 'Color', [0.17 0.17 0.
 text(1.05, 23.5, sprintf('Dotted: %.1f%% per additional SBS', kfit), 'FontSize', 7);
 xlim([0.95 3.4]); ylim([-1 27]); grid(ax, 'on'); box(ax, 'off');
 xlabel('Reach: SBSs usable within the deadline (mean)'); ylabel('Gain (%)');
-title('(a) Gain over most popular against reach', 'FontWeight', 'normal');
-% (b) every configuration against g(Dd), with the prediction of Eq. (5)
-ax = subplot(1, 2, 2); hold(ax, 'on');
+title('(a) MA gain against reach', 'FontWeight', 'normal');
+% (b) LRU effective hit ratio against P(stay >= Ds in the first cell)
+ax = subplot(1, 3, 2); hold(ax, 'on');
+pst = A.stats(:,:,8);
+for mi = 1:nm
+  plot(pst(mi,:), A.eff(mi,:,3), 'LineStyle', 'none', 'Marker', mk{max(mi,2)}, ...
+       'Color', col(mi,:), 'MarkerFaceColor', col(mi,:), 'MarkerSize', 4);
+end
+plot([0 1], mean(mean(A.snap(:,:,3))) * [0 1], 'k-');
+xlim([0.2 1.02]); ylim([0.04 0.26]); grid(ax, 'on'); box(ax, 'off');
+xlabel('P(stay \geq D_s in the first cell)'); ylabel('LRU effective hit ratio');
+title('(b) LRU against P(stay \geq D_s)', 'FontWeight', 'normal');
+% (c) every configuration against g(Dd), with the prediction of Eq. (5)
+ax = subplot(1, 3, 3); hold(ax, 'on');
 T = d2d_predict(); R = T.rows;                    % model, speed, seed, Dd, g, pred, sim
 [keys, ~, id] = unique(R(:, [1 2 4]), 'rows');
 gm = accumarray(id, R(:,5), [], @mean); sm = accumarray(id, R(:,7), [], @mean);
@@ -84,7 +95,7 @@ gs = logspace(-3.3, -0.7, 80); q = inclusion_prob_local(p, P.c);
 plot(gs, arrayfun(@(g) sum(p .* (q + (1 - q) .* (1 - (1 - g*q).^(P.U - 1)))), gs), 'k-', 'LineWidth', 1);
 set(ax, 'XScale', 'log'); xlim([5e-4 0.2]); ylim([0.07 0.52]); grid(ax, 'on'); box(ax, 'off');
 xlabel('Usable-contact probability per pair, g(D_d)'); ylabel('D2D offloading ratio');
-title('(b) All runs against g(D_d); solid line: prediction', 'FontWeight', 'normal');
+title('(c) D2D offloading against g(D_d)', 'FontWeight', 'normal');
 lg = legend(names, 'Orientation', 'horizontal', 'Box', 'off', 'Interpreter', 'tex');
 lg.Position(1:2) = [0.08 0.0];
 exportgraphics(f, fullfile(outdir, 'fig_predict.pdf'), 'ContentType', 'vector'); close(f);
