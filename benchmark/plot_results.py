@@ -82,14 +82,16 @@ def fig_sbs(raw):
     fig, axs = plt.subplots(1, 3, figsize=(7.16, 2.4), constrained_layout=True)
     axs = axs.ravel()
     mpc = raw.eff_mpc.mean()
-    panels = [("eff_ma", "(a) Mobility-aware, effective hit ratio", (0.32, 0.54)),
-              ("snap_ma", "(b) Mobility-aware, snapshot hit ratio", (0.32, 0.54)),
+    panels = [("eff_ma", "(a) Mobility-aware, effective hit ratio", (0.405, 0.535)),
+              ("snap_ma", "(b) Mobility-aware, snapshot hit ratio", (0.315, 0.435)),
               ("eff_lru", "(c) LRU, effective hit ratio", (0.04, 0.26))]
     for ax, (key, title, yl) in zip(axs[:3], panels):
         handles = draw_models(ax, raw, key)
         if key != "eff_lru":
             ax.axhline(mpc, color="#2b2b28", lw=0.8, ls=":")
-            ax.text(0.45, mpc + 0.004, "Most popular", fontsize=6.5, color="#2b2b28")
+            below = key == "eff_ma"          # place the label where no curve runs
+            ax.text(21, mpc - 0.005 if below else mpc + 0.003, "Most popular", fontsize=6.5,
+                    color="#2b2b28", ha="right", va="top" if below else "bottom")
         ax.set_title(title, loc="left"); ax.set_ylim(*yl)
         ax.set_ylabel("Hit ratio")
         speed_axis(ax)

@@ -21,7 +21,7 @@ cis    = {A.eff_ci(:,:,2), A.t95 * A.snap_sd(:,:,2) / sqrt(numel(P.seeds)), A.ef
 ttl = {'(a) Mobility-aware, effective hit ratio', ...
        '(b) Mobility-aware, snapshot hit ratio', ...
        '(c) LRU, effective hit ratio'};
-yl = {[0.32 0.54], [0.32 0.54], [0.04 0.26]};
+yl = {[0.405 0.535], [0.315 0.435], [0.04 0.26]};
 for k = 1:3
   ax = subplot(1, 3, k); hold(ax, 'on');
   for mi = 1:nm
